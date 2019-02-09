@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="RNS-3" default="package-service" basedir=".">
+	<description>
+			Script for RNS Assignment 3
+	</description>
+
+	<!-- The location of this assignment -->
+	<property name="lab3.location" location="." />
+
+	<!-- The "RnsReaderFactory" used for RnsInfo and as data generator for tests -->
+	<property name="RnsInfo.RnsReaderFactory" value="it.polito.dp2.RNS.Random.RnsReaderFactoryImpl" />
+
+	<!-- The default test case -->
+	<property name="testcase" value="0" />
+	<!-- The default test class -->
+	<property name="test.class" value="it.polito.dp2.RNS.lab3.tests.RnsTests" />
+	<!-- The default port for Tomcat -->
+	<property name="PORT" value="8080"/>
+	<!-- The default URL to be used by clients -->
+	<property name="URL" value="http://localhost:${PORT}/RnsSystem/rest" />
+
+	<!-- The location to be used for class files -->
+	<property name="build.dir" location="${lab3.location}/build" />
+	<!-- The location for source files -->
+	<property name="src.dir" location="${lab3.location}/src" />
+	<!-- The location for solutions -->
+	<property name="sol1.dir" value="src/it/polito/dp2/RNS/sol1" />
+	<property name="sol2.dir" value="src/it/polito/dp2/RNS/sol2" />
+	<property name="sol3.dir" value="src/it/polito/dp2/RNS/sol3" />
+	<!-- The location for jar files -->
+	<property name="lib.dir" location="${lab3.location}/lib" />
+	<!-- The location for custom files -->
+	<property name="custom.dir" location="${lab3.location}/custom" />
+	<!-- The location for xsd files -->
+	<property name="xsd.dir" location="${lab3.location}/xsd" />
+	<!-- The location for documentation files -->
+	<property name="doc.dir" location="${lab3.location}/doc" />
+    <!-- The location of the Neo4J web service -->
+	<property name="Neo4JURL" value="http://localhost:7474/db"/>
+    <!-- The location of the Neo4JSimpleXML web service (only used to set properties in Tomcat) -->
+	<property name="Neo4JSimpleXMLURL" value="http://localhost:${PORT}/Neo4JSimpleXML/webapi"/>
+
+	
+	<!-- The location for extra jar files -->
+    <property name="shared.location" location="/opt/dp2/shared"/>
+	<property name="ext.lib.dir" location="${shared.location}/lib" />
+	
+	<!-- The ant file to be provided for client and service compilation -->
+	<property name="sol.build.file" value="sol_build.xml" />
+	<property name="sol.build.filepath" location="${lab3.location}/${sol.build.file}" />
+	
+	<!-- Properties for generation of war file -->
+	<property name="gen.tomcat.service.dir" location="${lab3.location}/target"/>
+	<property name="webContent.dir" location="${lab3.location}/WebContent"/>
+	<property name="gen.war.dir" location="${lab3.location}/war" />
+
+	<!-- The name to be given to the solution zip -->
+	<property name="sol.zip" value="lab3.zip" />
+	
+	<!-- Java compiler settings -->
+	<property name="debug" value="true" />
+	<property name="debuglevel" value="source,lines,vars" />
+	<property name="target" value="1.8" />
+	<property name="source" value="1.8" />
+	
+	<!-- Import Ant Script for controlling Tomcat-->
+	<property name="service.name" value="RnsSystem"/>
+	<property name="root.location" value="${lab3.location}"/>
+	<import file="tomcat-build.xml"/>
+	
+	<!-- Import Ant Script for controlling Neo4j-->
+	<import file="neo4j-build.xml"/>
+
+	<!-- The classpath that includes only the RNS.jar -->
+	<path id="RNS.classpath">
+		<pathelement location="${lib.dir}/RNS.jar"/>
+	</path>
+	
+	<!-- The classpath to be used for running the tests -->
+	<path id="test.classpath">
+		<pathelement location="${build.dir}" />
+		<fileset dir="${lib.dir}">
+		    <include name="*.jar" />
+		</fileset>
+		<fileset dir="${ext.lib.dir}">
+		    <include name="*.jar" />
+			<exclude name="ant-*.jar"/>
+		</fileset>
+	</path>
+
+	<!-- The target that sets the seed to the current time is it is not already set -->
+	<target name="setseed" unless="seed">
+		<tstamp>
+			<format property="seed" pattern="1HHmmss" />
+		</tstamp>
+	</target>
+
+	<target name="init">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${gen.tomcat.service.dir}"/>		
+	</target>
+
+	<!-- The target for compiling the RnsInfo application -->
+	<target name="buildRnsInfo" depends="init">
+		<echo>Building RnsInfo (if needed)...</echo>
+		<javac 
+			destdir="${build.dir}"
+			debug="${debug}"
+			debuglevel="${debuglevel}"
+			source="${source}"
+			target="${target}"
+			includeantruntime="false">
+				<src path="${src.dir}" />
+				<include name="it/polito/dp2/RNS/lab1/RnsInfo.java" />
+				<classpath>
+					<path refid="RNS.classpath" />
+				</classpath>
+		</javac>
+		<echo>Done.</echo>
+	</target>
+
+	<!-- The target for running the RnsInfo application -->
+	<target name="RnsInfo" depends="buildRnsInfo, setseed" description="Run RnsInfo">
+		<java classname="it.polito.dp2.RNS.lab1.RnsInfo" failonerror="true" fork="yes">
+			<sysproperty key="it.polito.dp2.RNS.Random.seed" value="${seed}"/>
+			<sysproperty key="it.polito.dp2.RNS.Random.testcase" value="${testcase}"/>
+			<sysproperty key="it.polito.dp2.RNS.RnsReaderFactory" value="${RnsInfo.RnsReaderFactory}"/>
+			<classpath>
+				<path refid="RNS.classpath" />
+				<pathelement location="${lib.dir}/RNSRandom.jar"/>
+				<pathelement path="${build.dir}"/>
+			</classpath>
+		</java>
+	</target>
+	
+	<!-- The targets for building the service and the clients of the solution (calls solution script) -->
+	<target name="build-service" depends="init">
+		<ant antfile="${sol.build.filepath}" target="build-service">
+			<property name="basedir" value="${lab3.location}" />
+		</ant>
+	</target>
+
+	<target name="build-client" depends="init">
+		<ant antfile="${sol.build.filepath}" target="build-client">
+			<property name="basedir" value="${lab3.location}" />
+		</ant>
+	</target>
+	
+	<!-- The target for packaging the service -->
+	<target name="package-service" depends="build-service,prepare-environment">
+		<!-- copy web module resource files to temporary destination folder -->
+    	<copy toDir="${gen.tomcat.service.dir}" overwrite="true">
+        	<fileset dir="${webContent.dir}">
+			</fileset>
+      	</copy>
+		<!-- copy class files to WEB-INF/classes directory -->
+    	<copy toDir="${gen.tomcat.service.dir}/WEB-INF/classes" overwrite="true">
+        	<fileset dir="${build.dir}">
+        	</fileset>
+    		
+      	</copy>
+		<!-- copy lib files to WEB-INF/lib directory -->
+    	<copy toDir="${gen.tomcat.service.dir}/WEB-INF/lib" overwrite="true">
+        	<fileset dir="${lib.dir}">
+        		<include name="*.jar"/>
+        		<exclude name="lab3.jar"/>
+			</fileset>
+      	</copy> 
+		<!-- make war archive -->
+		<jar destfile="${gen.war.dir}/${service.name}.war" basedir="${gen.tomcat.service.dir}"/>
+	</target>
+
+	<!-- The target that prepares the Tomcat environment by setting the necessary properties -->
+	<target name="prepare-environment" depends="setseed" description="re-Deploy the Neo4JSimpleXML service and set properties">
+			<echo>Deploying Neo4JSimpleXML to tomcat... at "${tomcatUrl}"</echo>
+			<deploy url="${tomcatUrl}" username="${tomcatUsername}"
+					password="${tomcatPassword}" path="/Neo4JSimpleXML" update="true"
+					localWar="file:${lab3.location}/internal/Neo4JSimpleXML.war" />
+			<!-- Set properties in Tomcat Server -->
+			<echo file="properties">it.polito.dp2.RNS.lab3.Neo4JURL ${Neo4JURL}${line.separator}it.polito.dp2.RNS.RnsReaderFactory ${RnsInfo.RnsReaderFactory}${line.separator}PORT ${PORT}</echo>
+			<java classname="it.polito.dp2.RNS.lab3.internal.PropertySetter" failonerror="true" fork="yes">
+				<sysproperty key="it.polito.dp2.RNS.lab3.Neo4JSimpleXMLURL" value="${Neo4JSimpleXMLURL}" />
+				<classpath>
+					<fileset dir="${ext.lib.dir}">
+					    <include name="*.jar" />
+						<exclude name="ant-*.jar"/>
+					</fileset>
+					<pathelement location="${lib.dir}/lab3.jar"/>
+				</classpath>
+			</java>
+			<!-- Set seed in Tomcat Server -->
+			<java classname="it.polito.dp2.RNS.lab3.internal.SeedSetter" failonerror="true" fork="yes">
+				<sysproperty key="it.polito.dp2.RNS.Random.seed" value="${seed}"/>
+				<sysproperty key="it.polito.dp2.RNS.lab3.Neo4JSimpleXMLURL" value="${Neo4JSimpleXMLURL}" />
+				<classpath>
+					<fileset dir="${ext.lib.dir}">
+					    <include name="*.jar" />
+						<exclude name="ant-*.jar"/>
+					</fileset>
+					<pathelement location="${lib.dir}/lab3.jar"/>
+				</classpath>
+			</java>
+	</target>
+
+	<!-- The target that runs the tests (it also prepares the environment and deploys the web service) -->
+	<target name="run-tests" depends="setseed,prepare-environment,deployWS" description="runs tests">
+		<echo>Running functional tests</echo>
+		<echo>Seed: ${seed}</echo>
+
+		<!-- Give time to service for initialization -->
+  		<sleep seconds="5"/>
+		
+		<!-- Start real functional tests -->
+		<antcall target="runFuncTest.real">
+			<param name="exit.code1" value="126" />
+			<param name="exit.code2" value="125" />
+		</antcall>
+	</target>
+
+	<!-- Target runFuncTest.real NOT TO BE CALLED DIRECTLY -->
+	<target name="runFuncTest.real" depends="build-client">	
+		<echo>Running Junit tests...</echo>		
+		<junit printsummary="yes" dir="." fork="yes" haltonfailure="no" showoutput="no" filtertrace="true" timeout="120000">
+			<jvmarg value="-Djava.awt.headless=true" />
+			<sysproperty key="it.polito.dp2.RNS.RnsReaderFactory" value="${RnsInfo.RnsReaderFactory}" />
+			<sysproperty key="it.polito.dp2.RNS.Random.seed" value="${seed}"/>
+			<sysproperty key="it.polito.dp2.RNS.Random.testcase" value="${test.case}"/>
+			<sysproperty key="it.polito.dp2.RNS.lab3.URL" value="${URL}" />
+			<sysproperty key="it.polito.dp2.RNS.lab2.URL" value="${Neo4JURL}" />
+			<sysproperty key="it.polito.dp2.RNS.lab3.Neo4JURL" value="${Neo4JURL}"/>
+			<sysproperty key="it.polito.dp2.RNS.lab3.Neo4JSimpleXMLURL" value="http://localhost:8080/Neo4JSimpleXML/rest"/>
+			<sysproperty key="it.polito.dp2.RNS.RnsClientFactory" value="it.polito.dp2.RNS.sol3.client1.RnsClientFactory"/>
+			<formatter type="xml" usefile="true"/>
+			<formatter type="plain" usefile="false"/>
+			<test haltonfailure="no" failureproperty="test_failed" outfile="testout" name="${test.class}"
+			 methods="testGetPlaces,testGetParkingAreas,testVehicleLifecycle,testVehicleLifecycle2,testUnknownPlace,testWrongPlace"/>
+			<classpath>
+				<path refid="test.classpath" />
+			</classpath>
+		</junit>
+		<fail if="test_failed" status="${exit.code2}" message="*** Junit tests: Some Tests FAILED ***"/>
+		<echo>*** Junit tests: All Tests PASSED  ***</echo>	
+	</target>
+
+	<!-- target for cleaning -->
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${gen.tomcat.service.dir}"/>
+		<delete file="${gen.war.dir}/${service.name}.war"/>
+	</target>
+
+	<!--target for building the final zip containing the solution -->
+	<target name="make-zip" description="Make zip to be submitted">
+		<zip destfile="${sol.zip}" 
+			basedir="${lab3.location}" 
+			includes="${sol.build.file} custom/**/* xsd/**/* doc/**/* WebContent/**/* ${sol1.dir}/**/* ${sol2.dir}/**/* ${sol3.dir}/**/*" />
+	</target>
+</project>
