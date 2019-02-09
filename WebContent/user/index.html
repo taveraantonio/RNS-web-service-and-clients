@@ -1,0 +1,1861 @@
+<!-- HTML for static distribution bundle build -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Swagger UI</title>
+    <link rel="stylesheet" type="text/css" href="./swagger-ui.css" >
+    <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16" />
+    <style>
+      html
+      {
+        box-sizing: border-box;
+        overflow: -moz-scrollbars-vertical;
+        overflow-y: scroll;
+      }
+
+      *,
+      *:before,
+      *:after
+      {
+        box-sizing: inherit;
+      }
+
+      body
+      {
+        margin:0;
+        background: #fafafa;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="swagger-ui"></div>
+
+    <script src="./swagger-ui-bundle.js"> </script>
+    <script src="./swagger-ui-standalone-preset.js"> </script>
+
+
+    <script>	
+		window.onload = function() {
+		  // Begin Swagger UI call region
+		  const ui = SwaggerUIBundle({
+			spec: {
+				  "openapi" : "3.0.0",
+				  "info" : {
+				    "title" : "RNS System",
+				    "description" : "This is the documentation of the RESTful API for the DP2-RNS system for the two types of users: administrators and vehicles. It is developed, as solution of the first part of the third Assignment, by Antonio Tavera, id: 243869",
+				    "termsOfService" : "http://swagger.io/terms/",
+				    "contact" : {
+				      "email" : "s243869@studenti.polito.it"
+				    },
+				    "license" : {
+				      "name" : "Apache 2.0",
+				      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+				    },
+				    "version" : "1.0.0-oas3"
+				  },
+				  "servers" : [ {
+				    "url" : "https://api.example.com/v1"
+				  } ],
+				  "tags" : [ {
+				    "name" : "Root",
+				    "description" : "RNS System Root"
+				  }, {
+				    "name" : "Vehicle User API",
+				    "description" : "Api for Vehicle User"
+				  }, {
+				    "name" : "Vehicles Administrator API",
+				    "description" : "Information regarding vehicles in the system. Administrator only"
+				  }, {
+				    "name" : "Places Administrator API",
+				    "description" : "Information regarding places in the system. Administrator only"
+				  }, {
+				    "name" : "Connections Administrator API",
+				    "description" : "Information regarding connections in the system. Administrator only"
+				  } ],
+				  "paths" : {
+				    "/rns" : {
+				      "get" : {
+				        "tags" : [ "Root" ],
+				        "summary" : "Get Root",
+				        "description" : "Get the RNS System root",
+				        "responses" : {
+				          "200" : {
+				            "description" : "Ok root found",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/rnsRoot"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/rnsRoot"
+				                }
+				              }
+				            }
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      }
+				    },
+				    "/rns/vehicles" : {
+				      "get" : {
+				        "tags" : [ "Vehicles Administrator API" ],
+				        "summary" : "Get Vehicles",
+				        "description" : "Get all the vehicles that are in the RNS system with the specified characteristic",
+				        "parameters" : [ {
+				          "name" : "since",
+				          "in" : "query",
+				          "description" : "the entrance date/time since when vehicles have to be selected or null to select vehicles with any entrance date/time.",
+				          "required" : true,
+				          "style" : "form",
+				          "explode" : true,
+				          "schema" : {
+				            "type" : "string",
+				            "format" : "date-time",
+				            "nullable" : true
+				          }
+				        }, {
+				          "name" : "types",
+				          "in" : "query",
+				          "description" : "the set of types of vehicles that have to be selected or null to select vehicles of any type",
+				          "required" : true,
+				          "style" : "form",
+				          "explode" : true,
+				          "schema" : {
+				            "type" : "array",
+				            "nullable" : true,
+				            "items" : {
+				              "type" : "string",
+				              "enum" : [ "CAR", "TRUCK", "SHUTTLE", "CARAVAN" ]
+				            }
+				          }
+				        }, {
+				          "name" : "state",
+				          "in" : "query",
+				          "description" : "the state of vehicles to be selected or null to select vehicles in any state",
+				          "required" : true,
+				          "style" : "form",
+				          "explode" : true,
+				          "schema" : {
+				            "type" : "string",
+				            "nullable" : true,
+				            "enum" : [ "PARKED", "IN-TRANSIT" ]
+				          }
+				        }, {
+				          "name" : "page",
+				          "in" : "query",
+				          "description" : "Page number required",
+				          "required" : true,
+				          "style" : "form",
+				          "explode" : true,
+				          "schema" : {
+				            "type" : "integer",
+				            "format" : "int32"
+				          }
+				        } ],
+				        "responses" : {
+				          "200" : {
+				            "description" : "Ok. Found Vehicles",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/vehicles"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/vehicles"
+				                }
+				              }
+				            }
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      },
+				      "post" : {
+				        "tags" : [ "Vehicle User API" ],
+				        "summary" : "Add vehicle to the system",
+				        "description" : "In the permission request to enters the system a vehicle must specify the entrance (IN or INOUT) gate where it is, and the destionation place it wants to go to, in addition to the information about the vehicle itself (plate id and vehicle type). The system may grant permission or not. ",
+				        "requestBody" : {
+				          "content" : {
+				            "application/json" : {
+				              "schema" : {
+				                "$ref" : "#/components/schemas/entranceRequest"
+				              }
+				            },
+				            "application/xml" : {
+				              "schema" : {
+				                "$ref" : "#/components/schemas/entranceRequest"
+				              }
+				            }
+				          },
+				          "required" : true
+				        },
+				        "responses" : {
+				          "201" : {
+				            "description" : "Vehicle created. Suggested path returned",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/suggestedPath"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/suggestedPath"
+				                }
+				              }
+				            }
+				          },
+				          "400" : {
+				            "description" : "Bad Request"
+				          },
+				          "403" : {
+				            "description" : "Forbidden"
+				          },
+				          "404" : {
+				            "description" : "Source or Destination not found"
+				          },
+				          "409" : {
+				            "description" : "Vehicle already in the system"
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      }
+				    },
+				    "/rns/vehicles/{id}" : {
+				      "get" : {
+				        "tags" : [ "Vehicles Administrator API" ],
+				        "summary" : "Get Vehicle",
+				        "description" : "Get the vehicle for that given plate ID",
+				        "parameters" : [ {
+				          "name" : "id",
+				          "in" : "path",
+				          "description" : "the plate id of the vehicle to get",
+				          "required" : true,
+				          "style" : "simple",
+				          "explode" : false,
+				          "schema" : {
+				            "$ref" : "#/components/schemas/plateID"
+				          }
+				        } ],
+				        "responses" : {
+				          "200" : {
+				            "description" : "Vehicle Found",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/vehicle"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/vehicle"
+				                }
+				              }
+				            }
+				          },
+				          "400" : {
+				            "description" : "Bad request"
+				          },
+				          "404" : {
+				            "description" : "Vehicle not found"
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      },
+				      "put" : {
+				        "tags" : [ "Vehicles Administrator API", "Vehicle User API" ],
+				        "summary" : "Delete Vehicle",
+				        "description" : "Delete the vehicle from the RNS Syetm",
+				        "parameters" : [ {
+				          "name" : "id",
+				          "in" : "path",
+				          "description" : "the plate id of the vehicle to get",
+				          "required" : true,
+				          "style" : "simple",
+				          "explode" : false,
+				          "schema" : {
+				            "$ref" : "#/components/schemas/plateID"
+				          }
+				        } ],
+				        "requestBody" : {
+				          "content" : {
+				            "application/json" : {
+				              "schema" : {
+				                "$ref" : "#/components/schemas/exitRequest"
+				              }
+				            },
+				            "application/xml" : {
+				              "schema" : {
+				                "$ref" : "#/components/schemas/exitRequest"
+				              }
+				            }
+				          },
+				          "required" : true
+				        },
+				        "responses" : {
+				          "204" : {
+				            "description" : "No content. Successfully Deleted"
+				          },
+				          "400" : {
+				            "description" : "Bad request"
+				          },
+				          "404" : {
+				            "description" : "Exit place not found"
+				          },
+				          "409" : {
+				            "description" : "Not allowed to delete"
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      }
+				    },
+				    "/rns/vehicles/{id}/destination" : {
+				      "get" : {
+				        "tags" : [ "Vehicles Administrator API" ],
+				        "summary" : "Get Destination Place",
+				        "description" : "Gets the destination place of this vehicle in the system",
+				        "parameters" : [ {
+				          "name" : "id",
+				          "in" : "path",
+				          "description" : "the plate id of the vehicle to get",
+				          "required" : true,
+				          "style" : "simple",
+				          "explode" : false,
+				          "schema" : {
+				            "$ref" : "#/components/schemas/plateID"
+				          }
+				        } ],
+				        "responses" : {
+				          "200" : {
+				            "description" : "Destination of vehicle found",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/place"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/place"
+				                }
+				              }
+				            }
+				          },
+				          "400" : {
+				            "description" : "Bad Request"
+				          },
+				          "404" : {
+				            "description" : "Destination of vehicle not found"
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      }
+				    },
+				    "/rns/vehicles/{id}/entryTime" : {
+				      "get" : {
+				        "tags" : [ "Vehicles Administrator API" ],
+				        "summary" : "Get Entry Time",
+				        "description" : "Gets the date and time when this vehicle entered the RNS system",
+				        "parameters" : [ {
+				          "name" : "id",
+				          "in" : "path",
+				          "description" : "the plate id of the vehicle to get",
+				          "required" : true,
+				          "style" : "simple",
+				          "explode" : false,
+				          "schema" : {
+				            "$ref" : "#/components/schemas/plateID"
+				          }
+				        } ],
+				        "responses" : {
+				          "200" : {
+				            "description" : "Vehicle entry time found",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/time"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/time"
+				                }
+				              }
+				            }
+				          },
+				          "400" : {
+				            "description" : "Bad Request"
+				          },
+				          "404" : {
+				            "description" : "Entry time of vehicle not found"
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      }
+				    },
+				    "/rns/vehicles/{id}/origin" : {
+				      "get" : {
+				        "tags" : [ "Vehicles Administrator API" ],
+				        "summary" : "Get Origin",
+				        "description" : "Gets the origin place of this vehicle in the system",
+				        "parameters" : [ {
+				          "name" : "id",
+				          "in" : "path",
+				          "description" : "the plate id of the vehicle to get",
+				          "required" : true,
+				          "style" : "simple",
+				          "explode" : false,
+				          "schema" : {
+				            "$ref" : "#/components/schemas/plateID"
+				          }
+				        } ],
+				        "responses" : {
+				          "200" : {
+				            "description" : "Origin Place for vehicle found",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/place"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/place"
+				                }
+				              }
+				            }
+				          },
+				          "400" : {
+				            "description" : "Bad Request"
+				          },
+				          "404" : {
+				            "description" : "Origin place of vehicle not found"
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      }
+				    },
+				    "/rns/vehicles/{id}/position" : {
+				      "get" : {
+				        "tags" : [ "Vehicles Administrator API" ],
+				        "summary" : "Get Position",
+				        "description" : "Gets the current position of the vehicle",
+				        "parameters" : [ {
+				          "name" : "id",
+				          "in" : "path",
+				          "description" : "the plate id of the vehicle to get",
+				          "required" : true,
+				          "style" : "simple",
+				          "explode" : false,
+				          "schema" : {
+				            "$ref" : "#/components/schemas/plateID"
+				          }
+				        } ],
+				        "responses" : {
+				          "200" : {
+				            "description" : "Current position of the vehicle found",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/place"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/place"
+				                }
+				              }
+				            }
+				          },
+				          "400" : {
+				            "description" : "Bad Request"
+				          },
+				          "404" : {
+				            "description" : "Current position of the vehicle not found"
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      },
+				      "put" : {
+				        "tags" : [ "Vehicle User API" ],
+				        "summary" : "Update Position",
+				        "description" : "Update the current position of the vehicle",
+				        "parameters" : [ {
+				          "name" : "id",
+				          "in" : "path",
+				          "description" : "the plate id of the vehicle to get",
+				          "required" : true,
+				          "style" : "simple",
+				          "explode" : false,
+				          "schema" : {
+				            "$ref" : "#/components/schemas/plateID"
+				          }
+				        } ],
+				        "requestBody" : {
+				          "content" : {
+				            "application/json" : {
+				              "schema" : {
+				                "$ref" : "#/components/schemas/moveRequest"
+				              }
+				            },
+				            "application/xml" : {
+				              "schema" : {
+				                "$ref" : "#/components/schemas/moveRequest"
+				              }
+				            }
+				          },
+				          "required" : true
+				        },
+				        "responses" : {
+				          "200" : {
+				            "description" : "Position of the vehicle updated. New suggested path",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/suggestedPath"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/suggestedPath"
+				                }
+				              }
+				            }
+				          },
+				          "204" : {
+				            "description" : "Position of the vehicle updated. No new suggested path"
+				          },
+				          "400" : {
+				            "description" : "Bad Request"
+				          },
+				          "403" : {
+				            "description" : "Forbidden. The place is not reachable from the previous position"
+				          },
+				          "404" : {
+				            "description" : "Place not found"
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      }
+				    },
+				    "/rns/vehicles/{id}/state" : {
+				      "get" : {
+				        "tags" : [ "Vehicles Administrator API" ],
+				        "summary" : "Get State",
+				        "description" : "Gets the current state of the vehicle",
+				        "parameters" : [ {
+				          "name" : "id",
+				          "in" : "path",
+				          "description" : "the plate id of the vehicle to get",
+				          "required" : true,
+				          "style" : "simple",
+				          "explode" : false,
+				          "schema" : {
+				            "$ref" : "#/components/schemas/plateID"
+				          }
+				        } ],
+				        "responses" : {
+				          "200" : {
+				            "description" : "Current state of the vehicle found",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/vehicleState"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/vehicleState"
+				                }
+				              }
+				            }
+				          },
+				          "400" : {
+				            "description" : "Bad Request"
+				          },
+				          "404" : {
+				            "description" : "Current state of the vehicle not found"
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      },
+				      "put" : {
+				        "tags" : [ "Vehicle User API" ],
+				        "summary" : "Update state",
+				        "description" : "Update the state of the vehicle. Request always accepted by the system",
+				        "parameters" : [ {
+				          "name" : "id",
+				          "in" : "path",
+				          "description" : "the plate id of the vehicle to get",
+				          "required" : true,
+				          "style" : "simple",
+				          "explode" : false,
+				          "schema" : {
+				            "$ref" : "#/components/schemas/plateID"
+				          }
+				        } ],
+				        "requestBody" : {
+				          "content" : {
+				            "application/json" : {
+				              "schema" : {
+				                "$ref" : "#/components/schemas/vehicleState"
+				              }
+				            },
+				            "application/xml" : {
+				              "schema" : {
+				                "$ref" : "#/components/schemas/vehicleState"
+				              }
+				            }
+				          },
+				          "required" : true
+				        },
+				        "responses" : {
+				          "204" : {
+				            "description" : "State of the vehicle updated"
+				          },
+				          "400" : {
+				            "description" : "Bad Request"
+				          },
+				          "404" : {
+				            "description" : "Vehicle not found"
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      }
+				    },
+				    "/rns/vehicles/{id}/type" : {
+				      "get" : {
+				        "tags" : [ "Vehicles Administrator API" ],
+				        "summary" : "Get Type",
+				        "description" : "Gets the type of the vehicle",
+				        "parameters" : [ {
+				          "name" : "id",
+				          "in" : "path",
+				          "description" : "the plate id of the vehicle to get",
+				          "required" : true,
+				          "style" : "simple",
+				          "explode" : false,
+				          "schema" : {
+				            "$ref" : "#/components/schemas/plateID"
+				          }
+				        } ],
+				        "responses" : {
+				          "200" : {
+				            "description" : "Type of the vehicle found",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/vehicleType"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/vehicleType"
+				                }
+				              }
+				            }
+				          },
+				          "400" : {
+				            "description" : "Bad Request"
+				          },
+				          "404" : {
+				            "description" : "Type of the vehicle not found"
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      }
+				    },
+				    "/rns/vehicles/{id}/path" : {
+				      "get" : {
+				        "tags" : [ "Vehicles Administrator API" ],
+				        "summary" : "Get Suggested Path",
+				        "description" : "Gets the suggested path of the tracked vehicle",
+				        "parameters" : [ {
+				          "name" : "id",
+				          "in" : "path",
+				          "description" : "the plate id of the vehicle to get",
+				          "required" : true,
+				          "style" : "simple",
+				          "explode" : false,
+				          "schema" : {
+				            "$ref" : "#/components/schemas/plateID"
+				          }
+				        } ],
+				        "responses" : {
+				          "200" : {
+				            "description" : "Suggested path of the vehicle found",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/suggestedPath"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/suggestedPath"
+				                }
+				              }
+				            }
+				          },
+				          "400" : {
+				            "description" : "Bad Request"
+				          },
+				          "404" : {
+				            "description" : "Suggested path of the vehicle not found"
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      }
+				    },
+				    "/rns/places" : {
+				      "get" : {
+				        "tags" : [ "Places Administrator API" ],
+				        "summary" : "Get Places",
+				        "description" : "Gets all the places available in the RNS system whose ids have the specified prefix.",
+				        "parameters" : [ {
+				          "name" : "idPrefix",
+				          "in" : "query",
+				          "description" : "the id prefix for selecting places or null to get places with all ids.",
+				          "required" : true,
+				          "style" : "form",
+				          "explode" : true,
+				          "schema" : {
+				            "type" : "string",
+				            "nullable" : true
+				          }
+				        }, {
+				          "name" : "page",
+				          "in" : "query",
+				          "description" : "Page number required",
+				          "required" : true,
+				          "style" : "form",
+				          "explode" : true,
+				          "schema" : {
+				            "type" : "integer",
+				            "format" : "int32"
+				          }
+				        } ],
+				        "responses" : {
+				          "200" : {
+				            "description" : "Ok. Found Places",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/places"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/places"
+				                }
+				              }
+				            }
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      }
+				    },
+				    "/rns/places/gates" : {
+				      "get" : {
+				        "tags" : [ "Places Administrator API" ],
+				        "summary" : "Get Gates",
+				        "description" : "Gets  all the gates available in the RNS system with the given type",
+				        "parameters" : [ {
+				          "name" : "type",
+				          "in" : "query",
+				          "description" : "the required gate type or null to get readers for all gates",
+				          "required" : true,
+				          "style" : "form",
+				          "explode" : true,
+				          "schema" : {
+				            "type" : "string",
+				            "nullable" : true,
+				            "enum" : [ "IN", "OUT", "INOUT" ]
+				          }
+				        }, {
+				          "name" : "page",
+				          "in" : "query",
+				          "description" : "Page number required",
+				          "required" : true,
+				          "style" : "form",
+				          "explode" : true,
+				          "schema" : {
+				            "type" : "integer",
+				            "format" : "int32"
+				          }
+				        } ],
+				        "responses" : {
+				          "200" : {
+				            "description" : "Ok. Found Gates",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/places"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/places"
+				                }
+				              }
+				            }
+				          },
+				          "400" : {
+				            "description" : "Bad Request"
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      }
+				    },
+				    "/rns/places/roadSegments" : {
+				      "get" : {
+				        "tags" : [ "Places Administrator API" ],
+				        "summary" : "Get Road Segments",
+				        "description" : "Gets all the road segments available in the RNS system belonging to the road with the given name",
+				        "parameters" : [ {
+				          "name" : "roadName",
+				          "in" : "query",
+				          "description" : "the name of the road, or null to get all the road segments of all roads",
+				          "required" : true,
+				          "style" : "form",
+				          "explode" : true,
+				          "schema" : {
+				            "$ref" : "#/components/schemas/alphaNumericString"
+				          }
+				        }, {
+				          "name" : "page",
+				          "in" : "query",
+				          "description" : "Page number required",
+				          "required" : true,
+				          "style" : "form",
+				          "explode" : true,
+				          "schema" : {
+				            "type" : "integer",
+				            "format" : "int32"
+				          }
+				        } ],
+				        "responses" : {
+				          "200" : {
+				            "description" : "Ok. Found RoadSegments",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/places"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/places"
+				                }
+				              }
+				            }
+				          },
+				          "400" : {
+				            "description" : "Bad Request. Road with given name not found"
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      }
+				    },
+				    "/rns/places/parkingAreas" : {
+				      "get" : {
+				        "tags" : [ "Places Administrator API" ],
+				        "summary" : "Get Parking Areas",
+				        "description" : "Gets all the parking areas available in the RNS system having the specified services",
+				        "parameters" : [ {
+				          "name" : "services",
+				          "in" : "query",
+				          "description" : "the set of services, or null to get all parking areas",
+				          "required" : true,
+				          "style" : "form",
+				          "explode" : true,
+				          "schema" : {
+				            "type" : "array",
+				            "nullable" : true,
+				            "items" : {
+				              "type" : "string"
+				            }
+				          }
+				        }, {
+				          "name" : "page",
+				          "in" : "query",
+				          "description" : "Page number required",
+				          "required" : true,
+				          "style" : "form",
+				          "explode" : true,
+				          "schema" : {
+				            "type" : "integer",
+				            "format" : "int32"
+				          }
+				        } ],
+				        "responses" : {
+				          "200" : {
+				            "description" : "Ok. Found Parking Areas",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/places"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/places"
+				                }
+				              }
+				            }
+				          },
+				          "400" : {
+				            "description" : "Bad Request"
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      }
+				    },
+				    "/rns/places/{id}" : {
+				      "get" : {
+				        "tags" : [ "Places Administrator API" ],
+				        "summary" : "Get Place",
+				        "description" : "Get the place for the given place ID",
+				        "parameters" : [ {
+				          "name" : "id",
+				          "in" : "path",
+				          "description" : "the placeID of the place to get",
+				          "required" : true,
+				          "style" : "simple",
+				          "explode" : false,
+				          "schema" : {
+				            "type" : "string"
+				          }
+				        } ],
+				        "responses" : {
+				          "200" : {
+				            "description" : "Place Found, Returned",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/place"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/place"
+				                }
+				              }
+				            }
+				          },
+				          "400" : {
+				            "description" : "Bad request"
+				          },
+				          "404" : {
+				            "description" : "Place not found"
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      }
+				    },
+				    "/rns/places/{id}/capacity" : {
+				      "get" : {
+				        "tags" : [ "Places Administrator API" ],
+				        "summary" : "Get Places Capacity",
+				        "description" : "Gets the capacity of the place (i.e. the maximum number of vehicles this place should host)",
+				        "parameters" : [ {
+				          "name" : "id",
+				          "in" : "path",
+				          "description" : "the placeID of the place to get",
+				          "required" : true,
+				          "style" : "simple",
+				          "explode" : false,
+				          "schema" : {
+				            "type" : "string"
+				          }
+				        } ],
+				        "responses" : {
+				          "200" : {
+				            "description" : "Capacity retrieved",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/capacity"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/capacity"
+				                }
+				              }
+				            }
+				          },
+				          "400" : {
+				            "description" : "Bad Request"
+				          },
+				          "404" : {
+				            "description" : "Place not found"
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      }
+				    },
+				    "/rns/places/{id}/next" : {
+				      "get" : {
+				        "tags" : [ "Places Administrator API" ],
+				        "summary" : "Get Next Places",
+				        "description" : "Gets the set of places to which this place is connected to",
+				        "parameters" : [ {
+				          "name" : "id",
+				          "in" : "path",
+				          "description" : "the placeID of the place to get",
+				          "required" : true,
+				          "style" : "simple",
+				          "explode" : false,
+				          "schema" : {
+				            "type" : "string"
+				          }
+				        }, {
+				          "name" : "page",
+				          "in" : "query",
+				          "description" : "Page number required",
+				          "required" : true,
+				          "style" : "form",
+				          "explode" : true,
+				          "schema" : {
+				            "type" : "integer",
+				            "format" : "int32"
+				          }
+				        } ],
+				        "responses" : {
+				          "200" : {
+				            "description" : "Next places retrieved",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/places"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/places"
+				                }
+				              }
+				            }
+				          },
+				          "400" : {
+				            "description" : "Bad Request"
+				          },
+				          "404" : {
+				            "description" : "Place not found"
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      }
+				    },
+				    "/rns/places/{id}/vehicles" : {
+				      "get" : {
+				        "tags" : [ "Places Administrator API" ],
+				        "summary" : "Get Vehicles",
+				        "description" : "Gets the information about vehicles that are in the given place",
+				        "parameters" : [ {
+				          "name" : "id",
+				          "in" : "path",
+				          "description" : "the placeID of the place",
+				          "required" : true,
+				          "style" : "simple",
+				          "explode" : false,
+				          "schema" : {
+				            "type" : "string"
+				          }
+				        }, {
+				          "name" : "page",
+				          "in" : "query",
+				          "description" : "Page number required",
+				          "required" : true,
+				          "style" : "form",
+				          "explode" : true,
+				          "schema" : {
+				            "type" : "integer",
+				            "format" : "int32"
+				          }
+				        } ],
+				        "responses" : {
+				          "200" : {
+				            "description" : "Vehicles retrieved",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/vehicles"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/vehicles"
+				                }
+				              }
+				            }
+				          },
+				          "400" : {
+				            "description" : "Bad Request"
+				          },
+				          "404" : {
+				            "description" : "Place not found"
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      }
+				    },
+				    "/rns/places/gates/{id}/type" : {
+				      "get" : {
+				        "tags" : [ "Places Administrator API" ],
+				        "summary" : "Get Gate Type",
+				        "description" : "Gets the type of this gate.",
+				        "parameters" : [ {
+				          "name" : "id",
+				          "in" : "path",
+				          "description" : "the placeID of the gate to get the type",
+				          "required" : true,
+				          "style" : "simple",
+				          "explode" : false,
+				          "schema" : {
+				            "type" : "string"
+				          }
+				        } ],
+				        "responses" : {
+				          "200" : {
+				            "description" : "Type of the gate found",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/gateType"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/gateType"
+				                }
+				              }
+				            }
+				          },
+				          "400" : {
+				            "description" : "Bad Request"
+				          },
+				          "404" : {
+				            "description" : "Place not found"
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      }
+				    },
+				    "/rns/places/roadSegments/{id}/name" : {
+				      "get" : {
+				        "tags" : [ "Places Administrator API" ],
+				        "summary" : "Get Road Segment Name",
+				        "description" : "Gets the name of the road segment",
+				        "parameters" : [ {
+				          "name" : "id",
+				          "in" : "path",
+				          "description" : "the placeID of the roadsegment to get the name",
+				          "required" : true,
+				          "style" : "simple",
+				          "explode" : false,
+				          "schema" : {
+				            "type" : "string"
+				          }
+				        } ],
+				        "responses" : {
+				          "200" : {
+				            "description" : "Name of the road segment retrieved",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/name"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/name"
+				                }
+				              }
+				            }
+				          },
+				          "400" : {
+				            "description" : "Bad Request"
+				          },
+				          "404" : {
+				            "description" : "Place not found"
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      }
+				    },
+				    "/rns/places/roadSegments/{id}/roadName" : {
+				      "get" : {
+				        "tags" : [ "Places Administrator API" ],
+				        "summary" : "Get Road Name",
+				        "description" : "Gets the name of the road this segment belongs to",
+				        "parameters" : [ {
+				          "name" : "id",
+				          "in" : "path",
+				          "description" : "the placeID of the roadsegment to get the road name",
+				          "required" : true,
+				          "style" : "simple",
+				          "explode" : false,
+				          "schema" : {
+				            "type" : "string"
+				          }
+				        } ],
+				        "responses" : {
+				          "200" : {
+				            "description" : "Name of the road retrieved",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/name"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/name"
+				                }
+				              }
+				            }
+				          },
+				          "400" : {
+				            "description" : "Bad Request"
+				          },
+				          "404" : {
+				            "description" : "Place not found"
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      }
+				    },
+				    "/rns/places/parkingAreas/{id}/services" : {
+				      "get" : {
+				        "tags" : [ "Places Administrator API" ],
+				        "summary" : "Get Services",
+				        "description" : "Gets the set of services this parking area has.",
+				        "parameters" : [ {
+				          "name" : "id",
+				          "in" : "path",
+				          "description" : "the placeID of the parking area to get the services",
+				          "required" : true,
+				          "style" : "simple",
+				          "explode" : false,
+				          "schema" : {
+				            "type" : "string"
+				          }
+				        } ],
+				        "responses" : {
+				          "200" : {
+				            "description" : "Services retrieved",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/services"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/services"
+				                }
+				              }
+				            }
+				          },
+				          "400" : {
+				            "description" : "Bad Request"
+				          },
+				          "404" : {
+				            "description" : "Parking Area Not Found"
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      }
+				    },
+				    "/rns/connections" : {
+				      "get" : {
+				        "tags" : [ "Connections Administrator API" ],
+				        "summary" : "Get Connections",
+				        "description" : "Gets all the connections available in the RNS system.",
+				        "parameters" : [ {
+				          "name" : "page",
+				          "in" : "query",
+				          "description" : "Page number required",
+				          "required" : true,
+				          "style" : "form",
+				          "explode" : true,
+				          "schema" : {
+				            "type" : "integer",
+				            "format" : "int32"
+				          }
+				        } ],
+				        "responses" : {
+				          "200" : {
+				            "description" : "Ok. Found Connections",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/connections"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/connections"
+				                }
+				              }
+				            }
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      }
+				    },
+				    "/rns/connections/{id}/from" : {
+				      "get" : {
+				        "tags" : [ "Connections Administrator API" ],
+				        "summary" : "Get From",
+				        "description" : "Gets the starting place of this connection",
+				        "parameters" : [ {
+				          "name" : "id",
+				          "in" : "path",
+				          "description" : "the connection id",
+				          "required" : true,
+				          "style" : "simple",
+				          "explode" : false,
+				          "schema" : {
+				            "type" : "string"
+				          }
+				        } ],
+				        "responses" : {
+				          "200" : {
+				            "description" : "Place Found, Returned",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/place"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/place"
+				                }
+				              }
+				            }
+				          },
+				          "400" : {
+				            "description" : "Bad request"
+				          },
+				          "404" : {
+				            "description" : "Place not found"
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      }
+				    },
+				    "/rns/connections/{id}/to" : {
+				      "get" : {
+				        "tags" : [ "Connections Administrator API" ],
+				        "summary" : "Get To",
+				        "description" : "Gets the destination place of this connection",
+				        "parameters" : [ {
+				          "name" : "id",
+				          "in" : "path",
+				          "description" : "the connection id",
+				          "required" : true,
+				          "style" : "simple",
+				          "explode" : false,
+				          "schema" : {
+				            "type" : "string"
+				          }
+				        } ],
+				        "responses" : {
+				          "200" : {
+				            "description" : "Place Found, Returned",
+				            "content" : {
+				              "application/json" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/place"
+				                }
+				              },
+				              "application/xml" : {
+				                "schema" : {
+				                  "$ref" : "#/components/schemas/place"
+				                }
+				              }
+				            }
+				          },
+				          "400" : {
+				            "description" : "Bad request"
+				          },
+				          "404" : {
+				            "description" : "Place not found"
+				          },
+				          "500" : {
+				            "description" : "Server Error"
+				          }
+				        }
+				      }
+				    }
+				  },
+				  "components" : {
+				    "schemas" : {
+				      "rnsRoot" : {
+				        "type" : "object",
+				        "properties" : {
+				          "self" : {
+				            "type" : "string",
+				            "format" : "uri"
+				          },
+				          "vehicles" : {
+				            "type" : "string",
+				            "format" : "uri"
+				          },
+				          "places" : {
+				            "type" : "string",
+				            "format" : "uri"
+				          },
+				          "roadSegments" : {
+				            "type" : "string",
+				            "format" : "uri"
+				          },
+				          "parkingAreas" : {
+				            "type" : "string",
+				            "format" : "uri"
+				          },
+				          "gates" : {
+				            "type" : "string",
+				            "format" : "uri"
+				          },
+				          "connections" : {
+				            "type" : "string",
+				            "format" : "uri"
+				          }
+				        },
+				        "xml" : {
+				          "name" : "rnsRoot"
+				        }
+				      },
+				      "vehicles" : {
+				        "type" : "object",
+				        "properties" : {
+				          "totalPages" : {
+				            "minimum" : 0,
+				            "exclusiveMinimum" : false,
+				            "type" : "integer",
+				            "format" : "int32",
+				            "example" : 2
+				          },
+				          "page" : {
+				            "minimum" : 0,
+				            "exclusiveMinimum" : true,
+				            "type" : "integer",
+				            "format" : "int32",
+				            "example" : 1
+				          },
+				          "next" : {
+				            "type" : "string",
+				            "format" : "uri"
+				          },
+				          "vehicles" : {
+				            "type" : "array",
+				            "items" : {
+				              "$ref" : "#/components/schemas/vehicle"
+				            }
+				          }
+				        },
+				        "xml" : {
+				          "name" : "vehicles"
+				        }
+				      },
+				      "vehicle" : {
+				        "type" : "object",
+				        "properties" : {
+				          "self" : {
+				            "type" : "string",
+				            "format" : "uri"
+				          },
+				          "plateID" : {
+				            "$ref" : "#/components/schemas/plateID"
+				          },
+				          "from" : {
+				            "type" : "string",
+				            "format" : "uri"
+				          },
+				          "to" : {
+				            "type" : "string",
+				            "format" : "uri"
+				          },
+				          "position" : {
+				            "type" : "string",
+				            "format" : "uri"
+				          },
+				          "type" : {
+				            "type" : "string",
+				            "enum" : [ "CAR", "TRUCK", "SHUTTLE", "CARAVAN" ]
+				          },
+				          "state" : {
+				            "type" : "string",
+				            "enum" : [ "PARKED", "IN_TRANSIT" ]
+				          },
+				          "entryTime" : {
+				            "type" : "string",
+				            "format" : "date-time"
+				          }
+				        },
+				        "xml" : {
+				          "name" : "vehicle"
+				        }
+				      },
+				      "entranceRequest" : {
+				        "type" : "object",
+				        "properties" : {
+				          "plateID" : {
+				            "$ref" : "#/components/schemas/plateID"
+				          },
+				          "vehicleType" : {
+				            "type" : "string",
+				            "enum" : [ "CAR", "TRUCK", "SHUTTLE", "CARAVAN" ]
+				          },
+				          "destination" : {
+				            "type" : "string"
+				          },
+				          "gateType" : {
+				            "type" : "string",
+				            "enum" : [ "IN", "OUT", "INOUT" ]
+				          }
+				        }
+				      },
+				      "moveRequest" : {
+				        "type" : "object",
+				        "properties" : {
+				          "newPosition" : {
+				            "type" : "string"
+				          }
+				        }
+				      },
+				      "exitRequest" : {
+				        "type" : "object",
+				        "properties" : {
+				          "exitPosition" : {
+				            "type" : "string"
+				          },
+				          "isClient" : {
+				            "type" : "boolean"
+				          }
+				        }
+				      },
+				      "vehicleState" : {
+				        "type" : "object",
+				        "properties" : {
+				          "state" : {
+				            "type" : "string",
+				            "enum" : [ "PARKED", "IN_TRANSIT" ]
+				          }
+				        }
+				      },
+				      "vehicleType" : {
+				        "type" : "object",
+				        "properties" : {
+				          "type" : {
+				            "type" : "string",
+				            "enum" : [ "CAR", "TRUCK", "SHUTTLE", "CARAVAN" ]
+				          }
+				        }
+				      },
+				      "plateID" : {
+				        "pattern" : "([A-Z]+[0-9]|[0-9]+[A-Z])[A-Z0-9]*",
+				        "type" : "string"
+				      },
+				      "time" : {
+				        "type" : "object",
+				        "properties" : {
+				          "dateTime" : {
+				            "type" : "string",
+				            "format" : "date-time"
+				          }
+				        }
+				      },
+				      "suggestedPath" : {
+				        "type" : "object",
+				        "properties" : {
+				          "path" : {
+				            "type" : "array",
+				            "items" : {
+				              "type" : "string",
+				              "format" : "uri"
+				            }
+				          }
+				        }
+				      },
+				      "places" : {
+				        "type" : "object",
+				        "properties" : {
+				          "totalPages" : {
+				            "minimum" : 0,
+				            "exclusiveMinimum" : false,
+				            "type" : "integer",
+				            "format" : "int32",
+				            "example" : 2
+				          },
+				          "page" : {
+				            "minimum" : 0,
+				            "exclusiveMinimum" : true,
+				            "type" : "integer",
+				            "format" : "int32",
+				            "example" : 1
+				          },
+				          "next" : {
+				            "type" : "string",
+				            "format" : "uri"
+				          },
+				          "places" : {
+				            "type" : "array",
+				            "items" : {
+				              "$ref" : "#/components/schemas/place"
+				            }
+				          }
+				        },
+				        "xml" : {
+				          "name" : "places"
+				        }
+				      },
+				      "place" : {
+				        "type" : "object",
+				        "properties" : {
+				          "self" : {
+				            "type" : "string",
+				            "format" : "uri"
+				          },
+				          "placeID" : {
+				            "type" : "string"
+				          },
+				          "capacity" : {
+				            "minimum" : 0,
+				            "exclusiveMinimum" : true,
+				            "type" : "integer",
+				            "format" : "int32"
+				          },
+				          "connectedTo" : {
+				            "type" : "array",
+				            "items" : {
+				              "type" : "string",
+				              "format" : "uri"
+				            }
+				          },
+				          "choice" : {
+				            "type" : "object",
+				            "oneOf" : [ {
+				              "$ref" : "#/components/schemas/roadSegment"
+				            }, {
+				              "$ref" : "#/components/schemas/parkingArea"
+				            }, {
+				              "$ref" : "#/components/schemas/gateType"
+				            } ]
+				          }
+				        },
+				        "xml" : {
+				          "name" : "place"
+				        }
+				      },
+				      "parkingArea" : {
+				        "type" : "object",
+				        "properties" : {
+				          "services" : {
+				            "type" : "array",
+				            "items" : {
+				              "type" : "string",
+				              "example" : "Restaurant"
+				            }
+				          }
+				        }
+				      },
+				      "roadSegment" : {
+				        "type" : "object",
+				        "properties" : {
+				          "roadSegmentName" : {
+				            "$ref" : "#/components/schemas/alphaNumericString"
+				          },
+				          "roadName" : {
+				            "$ref" : "#/components/schemas/alphaNumericString"
+				          }
+				        }
+				      },
+				      "gateType" : {
+				        "type" : "object",
+				        "properties" : {
+				          "type" : {
+				            "type" : "string",
+				            "enum" : [ "IN", "OUT", "INOUT" ]
+				          }
+				        }
+				      },
+				      "alphaNumericString" : {
+				        "pattern" : "([A-Za-z]|[0-9])+",
+				        "type" : "string",
+				        "nullable" : true,
+				        "example" : "Gioberti"
+				      },
+				      "name" : {
+				        "type" : "object",
+				        "properties" : {
+				          "name" : {
+				            "pattern" : "([A-Za-z]|[0-9])+",
+				            "type" : "string"
+				          }
+				        }
+				      },
+				      "capacity" : {
+				        "type" : "object",
+				        "properties" : {
+				          "capacity" : {
+				            "minimum" : 0,
+				            "exclusiveMinimum" : false,
+				            "type" : "integer",
+				            "format" : "int32"
+				          }
+				        }
+				      },
+				      "services" : {
+				        "type" : "object",
+				        "properties" : {
+				          "services" : {
+				            "type" : "array",
+				            "items" : {
+				              "type" : "string"
+				            }
+				          }
+				        }
+				      },
+				      "connections" : {
+				        "type" : "object",
+				        "properties" : {
+				          "totalPages" : {
+				            "minimum" : 0,
+				            "exclusiveMinimum" : false,
+				            "type" : "integer",
+				            "format" : "int32",
+				            "example" : 2
+				          },
+				          "page" : {
+				            "minimum" : 0,
+				            "exclusiveMinimum" : true,
+				            "type" : "integer",
+				            "format" : "int32",
+				            "example" : 1
+				          },
+				          "next" : {
+				            "type" : "string",
+				            "format" : "uri"
+				          },
+				          "vehicles" : {
+				            "type" : "array",
+				            "items" : {
+				              "$ref" : "#/components/schemas/connection"
+				            }
+				          }
+				        },
+				        "xml" : {
+				          "name" : "connections"
+				        }
+				      },
+				      "connection" : {
+				        "type" : "object",
+				        "properties" : {
+				          "self" : {
+				            "type" : "string",
+				            "format" : "uri"
+				          },
+				          "id" : {
+				            "type" : "string"
+				          },
+				          "from" : {
+				            "type" : "string",
+				            "format" : "uri"
+				          },
+				          "to" : {
+				            "type" : "string",
+				            "format" : "uri"
+				          }
+				        },
+				        "xml" : {
+				          "name" : "connection"
+				        }
+				      }
+				    }
+				  }
+			  }, 
+		    dom_id: '#swagger-ui',
+		    deepLinking: true,
+		    presets: [
+		      SwaggerUIBundle.presets.apis,
+		      SwaggerUIStandalonePreset
+		    ],
+		    plugins: [
+		      SwaggerUIBundle.plugins.DownloadUrl
+			],
+			layout: "StandaloneLayout"
+		});
+		// End Swagger UI call region	
+		window.ui = ui;
+		};
+	</script>
+  </body>
+</html>
