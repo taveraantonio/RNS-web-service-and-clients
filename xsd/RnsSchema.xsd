@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<xsd:element name="Rns">
+    <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element name="Place" type="Place" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="Node" type="Node" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="Connection" type="Connection" minOccurs="0" maxOccurs="unbounded" /> 
+            <xsd:element name="ShortestPath" type="ShortestPath" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="ShortestResult" type="ShortestResult" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    
+    <!-- Defining place key -->
+    <xsd:key name="PlaceKey">
+        <xsd:selector xpath="Place" />
+        <xsd:field xpath="@id" />
+    </xsd:key>
+    <!-- Defining reference to place key for the connectedTo --> 
+    <xsd:keyref refer="PlaceKey" name="PlaceRef">
+        <xsd:selector xpath="Place/connectedTo" />
+        <xsd:field xpath="." /> 
+    </xsd:keyref> 
+    
+</xsd:element>
+
+
+<!-- Defining Place type -->
+<xsd:complexType name="Place">
+    <xsd:sequence>
+        <xsd:element name="connectedTo" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:sequence>
+    <xsd:attribute name="id" type="xsd:string" use="required"/>
+</xsd:complexType>
+
+
+<!-- Defining Node type -->
+<xsd:complexType name="Node">
+	<xsd:attribute name="id" type="xsd:string" use="required" />
+</xsd:complexType>
+
+
+<!-- Defining Connection Type -->
+<xsd:complexType name="Connection">
+	<xsd:attribute name="to" type="xsd:anyURI" use="required" />
+    <xsd:attribute name="type" type="xsd:string" use="required" />
+</xsd:complexType>
+
+
+<!-- Defining Shortest path type -->
+<xsd:complexType name="ShortestPath">
+    <xsd:sequence>
+    	<xsd:element name="to" type="xsd:anyURI" />
+    	<xsd:element name="max_depth" type="xsd:integer" />
+        <xsd:element name="relationships" >
+        	<xsd:complexType>
+        		<xsd:sequence>
+        			<xsd:element name="type" type="xsd:string"  />
+					<xsd:element name="direction" type="xsd:string" />
+        		</xsd:sequence>
+        	</xsd:complexType>
+        </xsd:element>
+        <xsd:element name="algorithm" type="xsd:string"  />
+    </xsd:sequence>
+</xsd:complexType>
+
+    
+<!-- Defining ShortesPath Result type -->
+<xsd:complexType name="ShortestResult">
+   <xsd:sequence>
+		<xsd:element name="nodes" type="xsd:anyURI" minOccurs="0" maxOccurs="unbounded" />   
+   </xsd:sequence>
+</xsd:complexType> 
+
+    
+</xsd:schema>

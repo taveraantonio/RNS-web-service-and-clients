@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>RNS Design</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="./w3c.css" >
+<link rel="stylesheet" type="text/css" href="./googleLato" >
+ <link rel="stylesheet" type="text/css" href="./googleMontserrat.css" >
+ <style>
+body,h1,h2,h3,h4,h5,h6,li{font-family: "Lato", sans-serif}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+</style>
+<body>
+
+
+  
+
+<!-- Header -->
+<header class="w3-container w3-green w3-center" style="padding:128px 16px">
+  <h1 class="w3-margin w3-jumbo">RNS Service</h1>
+  <p class="w3-xlarge">Design Explanation</p>
+</header>
+
+<!-- First Grid -->
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    
+      <h5 class="w3-padding-32">The design of the RNS Service is based on a constrained design approach with the aim to follow as much as possible the REST principles.</h5>
+
+      <p class="w3-text-grey">The service offered varies according to the user; it can be an administrator user or a vehicle user. The service is base on multiple interface: </p>
+      	<ul>
+  		<li class="w3-text-grey">rns/vehicles inteface: that allows access to all the information about vehicles, allows insertion, modification and deletion of vehicles </li>
+  		<li class="w3-text-grey">rns/places interfaces: that allows access to all the information about places</li>
+  		<li class="w3-text-grey">rns/connections interfaces: that allows access to all the information about connections</li>
+		</ul>
+        <p class="w3-text-grey">
+       The service is organized in order to respect information hiding principles; there is a clear separation between interface and implementation; clients see only what is needed.      
+      </p>
+      <p class="w3-text-grey">
+      The service limit the number of interaction that are necessary to access the server in order to minimize coupling. 
+      </p>
+      <p class="w3-text-grey">
+      Service is also designed to know how to react to different cases that might occur. It is designed to react to all the possible exceptions that could happen. This is in order to make the service more robust and secure. 
+      </p>
+      <p class="w3-text-grey">
+      The majority of method described are idempotent method and the size of message is also limited; the service is also prepared to handle paging mechanism in the near future.
+      </p>
+      <p class="w3-text-grey">
+      As said above, service is designed to follow REST principles. The APIs are easy to understand and self describing: plural names are used to describe collections while singular names are used to represent single entity. 
+      Resurces are represented in a hierarchical way and URLs reproduce the hierarchical relationship of resources.    HATEOAS principles are followed too.
+      </p>
+      
+     <p class="w3-text-grey">
+      <a href="./../impl/index.html">Click here for the implementation choices</a>
+        </p>
+
+  </div>
+</div>
+
+
+<div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
+    <h1 class="w3-margin w3-xlarge">Developed for DP2 Third Assignment by</h1>
+    <h2 class="w3-margin w3-xlarge">Antonio Tavera - 243869</h2>
+</div>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,3 @@
+it.polito.dp2.RNS.lab3.Neo4JURL http://localhost:7474/db
+it.polito.dp2.RNS.RnsReaderFactory it.polito.dp2.RNS.Random.RnsReaderFactoryImpl
+PORT 8080

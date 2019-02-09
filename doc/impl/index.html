@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>RNS Implementation</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="./w3c.css" >
+<link rel="stylesheet" type="text/css" href="./googleLato" >
+ <link rel="stylesheet" type="text/css" href="./googleMontserrat.css" >
+ <style>
+body,h1,h2,h3,h4,h5,h6,li{font-family: "Lato", sans-serif}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+</style>
+<body>
+
+
+  
+
+<!-- Header -->
+<header class="w3-container w3-green w3-center" style="padding:128px 16px">
+  <h1 class="w3-margin w3-jumbo">RNS Service</h1>
+  <p class="w3-xlarge">Implementation Choices</p>
+</header>
+
+<!-- First Grid -->
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    
+      <h5 class="w3-padding-32">The implementation made on the RNS Service followed the design choices explained <a href="./../design/index.html">here</a></h5>
+
+      <p class="w3-text-grey">First of all, the service is made always avaliable; it never terminates even when errors are detected, but throws different exception according to what happen.</p>
+     <p class="w3-text-grey">
+     The service does not provide data persistency (data are stored in main memory) but manage concurrency. All the idempotent methods are managed to not create undesired situation. Multiple clients can operate concurrently on the same server without restriction. More specific, Java thread-safe collection are used like the ConcurrentHashMap.<br>
+    Three main classes are created for the service, the first is the Resource class (the part that takes care about interfacing with network), then the Service class (that is the implementation of the logic) and final the Data Storage class (where data are stored). Shared data are avoided in resource and application logic class and demanded only to the Data Storage in order to satisfy concurrency principles.       
+      </p>
+      <p class="w3-text-grey">
+      HATEOAS is respected; clients can get all the possible hyperlinks requesting, through the GET method, the RnsRoot. 
+    </p>
+      <p class="w3-text-grey">
+      Query parameters are also implemented in the system to let user to decide what to get (they are made avaliable in some GET request, for example the getVehicles, the getRoadSegment or the getPlaces).
+      </p>
+      <p class="w3-text-grey">
+      The service support both XML and JSON mediatype for all the operations, both for the incoming and the outcoming requests. <br>XML Validation and JSON Interceptor are implemented to validate all the request (incoming and outcoming) against the schema. 
+      </p>
+      <p class="w3-text-grey">
+      Information hiding principles are followed too; the client see only what he needs and nothing about implementation or something else of the service. 
+    </p>
+      <p class="w3-text-grey">
+     The part that is omitted, but described in the design phase, is the handle of the paging mechanism. It is implemented but not working yet. It can be made avaliable in a future update of the system.
+      </p>
+    
+
+  </div>
+</div>
+
+
+<div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
+    <h1 class="w3-margin w3-xlarge">Developed for DP2 Third Assignment by</h1>
+    <h2 class="w3-margin w3-xlarge">Antonio Tavera - 243869</h2>
+</div>
+
+
+
+
+</body>
+</html>

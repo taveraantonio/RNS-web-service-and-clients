@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project basedir="."  name="neo4j-build">
+	<description>
+		Script for Controlling Neo4j (to be imported in main build)
+	</description>
+
+	
+	<property name="neo4j.location" value="/opt/neo4j-community-3.2.3"/>
+
+	<target name="start-neo4j" description="start NEO4J server">
+		<exec executable="/bin/bash">
+			<arg value="${neo4j.location}/bin/neo4j"/>
+			<arg value="start"/>
+		</exec>
+	</target>
+
+	<target name="stop-neo4j" description="stop NEO4J server">
+		<exec executable="/bin/bash">
+			<arg value="${neo4j.location}/bin/neo4j"/>
+			<arg value="stop"/>
+		</exec>
+	</target>
+	
+	<target name="clear-and-restart-neo4j" description="clear NEO4J DB and start NEO4J server">
+		<antcall target="stop-neo4j"/>
+		<sleep seconds="3"/>
+		<delete dir="${neo4j.location}/data/databases/graph.db" />
+		<sleep seconds="5"/>
+		<antcall target="start-neo4j"/>
+	</target>
+	
+</project>

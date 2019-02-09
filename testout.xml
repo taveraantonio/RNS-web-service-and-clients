@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite errors="0" failures="0" hostname="dp2-student" name="it.polito.dp2.RNS.lab3.tests.RnsTests" skipped="0" tests="6" time="3.057" timestamp="2019-01-16T16:27:52">
+  <properties>
+    <property name="it.polito.dp2.RNS.lab3.Neo4JURL" value="http://localhost:7474/db" />
+    <property name="env.DESKTOP_SESSION" value="xfce" />
+    <property name="file.encoding.pkg" value="sun.io" />
+    <property name="java.home" value="/usr/lib/jvm/jdk1.8.0_141/jre" />
+    <property name="custom.dir" value="/media/sf_Downloads/Assignment3b/custom" />
+    <property name="testcase" value="0" />
+    <property name="sol.build.filepath" value="/media/sf_Downloads/Assignment3b/sol_build.xml" />
+    <property name="env.QT_LINUX_ACCESSIBILITY_ALWAYS_ON" value="1" />
+    <property name="env.GDM_LANG" value="en_US" />
+    <property name="env.DISPLAY" value=":0" />
+    <property name="env.LS_COLORS" value="rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:" />
+    <property name="debug" value="true" />
+    <property name="env.XDG_VTNR" value="7" />
+    <property name="Neo4JURL" value="http://localhost:7474/db" />
+    <property name="seed" value="1172712" />
+    <property name="java.awt.headless" value="true" />
+    <property name="env.GLADE_CATALOG_PATH" value=":" />
+    <property name="env.XDG_GREETER_DATA_DIR" value="/var/lib/lightdm-data/dp2" />
+    <property name="java.endorsed.dirs" value="/usr/lib/jvm/jdk1.8.0_141/jre/lib/endorsed" />
+    <property name="env.LOGNAME" value="dp2" />
+    <property name="debuglevel" value="source,lines,vars" />
+    <property name="src.dir" value="/media/sf_Downloads/Assignment3b/src" />
+    <property name="env.XDG_SEAT" value="seat0" />
+    <property name="sol2.dir" value="src/it/polito/dp2/RNS/sol2" />
+    <property name="env.LC_PAPER" value="it_IT.UTF-8" />
+    <property name="env.SESSION_MANAGER" value="local/dp2-student:@/tmp/.ICE-unix/1798,unix/dp2-student:/tmp/.ICE-unix/1798" />
+    <property name="sun.os.patch.level" value="unknown" />
+    <property name="sol.build.file" value="sol_build.xml" />
+    <property name="java.vendor.url" value="http://java.oracle.com/" />
+    <property name="env.XDG_SEAT_PATH" value="/org/freedesktop/DisplayManager/Seat0" />
+    <property name="it.polito.dp2.RNS.lab2.URL" value="http://localhost:7474/db" />
+    <property name="env.MANDATORY_PATH" value="/usr/share/gconf/xfce.mandatory.path" />
+    <property name="java.version" value="1.8.0_141" />
+    <property name="gen.war.dir" value="/media/sf_Downloads/Assignment3b/war" />
+    <property name="it.polito.dp2.RNS.Random.seed" value="1172712" />
+    <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/" />
+    <property name="env.LANGUAGE" value="en_US" />
+    <property name="env.XDG_MENU_PREFIX" value="xfce-" />
+    <property name="ant.project.invoked-targets" value="runFuncTest.real" />
+    <property name="env.XDG_DATA_DIRS" value="/usr/share/xfce:/usr/share/xfce4:/usr/local/share:/usr/share:/var/lib/snapd/desktop:/usr/share" />
+    <property name="env.GNOME_KEYRING_CONTROL" value="" />
+    <property name="env.UPSTART_SESSION" value="unix:abstract=/com/ubuntu/upstart-session/1000/1270" />
+    <property name="user.name" value="dp2" />
+    <property name="env.LANG" value="en_US.UTF-8" />
+    <property name="env.LC_MONETARY" value="it_IT.UTF-8" />
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle" />
+    <property name="sun.jnu.encoding" value="UTF-8" />
+    <property name="env.DBUS_SESSION_BUS_ADDRESS" value="unix:abstract=/tmp/dbus-tjzi1SybiV" />
+    <property name="it.polito.dp2.RNS.Random.testcase" value="${test.case}" />
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment" />
+    <property name="env.LC_NAME" value="it_IT.UTF-8" />
+    <property name="lib.dir" value="/media/sf_Downloads/Assignment3b/lib" />
+    <property name="java.specification.name" value="Java Platform API Specification" />
+    <property name="env.GLADE_PIXMAP_PATH" value=":" />
+    <property name="user.timezone" value="" />
+    <property name="env.LESSOPEN" value="| /usr/bin/lesspipe %s" />
+    <property name="neo4j.location" value="/opt/neo4j-community-3.2.3" />
+    <property name="it.polito.dp2.RNS.lab3.Neo4JSimpleXMLURL" value="http://localhost:8080/Neo4JSimpleXML/rest" />
+    <property name="path.separator" value=":" />
+    <property name="tomcatUsername" value="root" />
+    <property name="env.XMODIFIERS" value="" />
+    <property name="file.encoding" value="UTF-8" />
+    <property name="PORT" value="8080" />
+    <property name="ant.project.default-target" value="package-service" />
+    <property name="env.HOME" value="/home/dp2" />
+    <property name="RnsInfo.RnsReaderFactory" value="it.polito.dp2.RNS.Random.RnsReaderFactoryImpl" />
+    <property name="catalina.home.bin.dir" value="/opt/tomcat/apache-tomcat-8.5.20/bin" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner it.polito.dp2.RNS.lab3.tests.RnsTests methods=testGetPlaces,testGetParkingAreas,testVehicleLifecycle,testVehicleLifecycle2,testUnknownPlace,testWrongPlace skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/media/sf_Downloads/Assignment3b/testout.xml formatter=org.apache.tools.ant.taskdefs.optional.junit.PlainJUnitResultFormatter crashfile=/media/sf_Downloads/Assignment3b/junitvmwatcher2702986230255263820.properties propsfile=/media/sf_Downloads/Assignment3b/junit7500094565820835301.properties" />
+    <property name="tomcatUrl" value="http://localhost:8080/manager/text" />
+    <property name="ant.file" value="/media/sf_Downloads/Assignment3b/build.xml" />
+    <property name="env.LC_TELEPHONE" value="it_IT.UTF-8" />
+    <property name="env._" value="/opt/apache-ant-1.9.13/bin/ant" />
+    <property name="env.GTK2_MODULES" value="overlay-scrollbar" />
+    <property name="java.io.tmpdir" value="/tmp" />
+    <property name="env.LC_IDENTIFICATION" value="it_IT.UTF-8" />
+    <property name="env.GNOME_KEYRING_PID" value="" />
+    <property name="TODAY" value="January 16 2019" />
+    <property name="user.language" value="en" />
+    <property name="env.UPSTART_EVENTS" value="started xsession" />
+    <property name="line.separator" value="&#xa;" />
+    <property name="target" value="1.8" />
+    <property name="server.location" value="/opt/tomcat/apache-tomcat-8.5.20" />
+    <property name="ant.file.type" value="file" />
+    <property name="env.SSH_AGENT_PID" value="1851" />
+    <property name="env.CLUTTER_IM_MODULE" value="" />
+    <property name="env.GLADE_MODULE_PATH" value=":" />
+    <property name="java.vm.info" value="mixed mode" />
+    <property name="it.polito.dp2.RNS.RnsReaderFactory" value="it.polito.dp2.RNS.Random.RnsReaderFactoryImpl" />
+    <property name="source" value="1.8" />
+    <property name="webContent.dir" value="/media/sf_Downloads/Assignment3b/WebContent" />
+    <property name="sol1.dir" value="src/it/polito/dp2/RNS/sol1" />
+    <property name="gen.tomcat.service.dir" value="/media/sf_Downloads/Assignment3b/target" />
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification" />
+    <property name="ant.file.tomcat-build" value="/media/sf_Downloads/Assignment3b/tomcat-build.xml" />
+    <property name="root.location" value="/media/sf_Downloads/Assignment3b" />
+    <property name="ant.file.type.RNS-3" value="file" />
+    <property name="env.LC_MEASUREMENT" value="it_IT.UTF-8" />
+    <property name="env.IM_CONFIG_PHASE" value="1" />
+    <property name="ant.file.neo4j-build" value="/media/sf_Downloads/Assignment3b/neo4j-build.xml" />
+    <property name="env.LC_TIME" value="it_IT.UTF-8" />
+    <property name="env.GDMSESSION" value="xfce" />
+    <property name="shared.location" value="/opt/dp2/shared" />
+    <property name="env.QT_ACCESSIBILITY" value="1" />
+    <property name="env.XDG_SESSION_DESKTOP" value="xfce" />
+    <property name="java.awt.printerjob" value="sun.print.PSPrinterJob" />
+    <property name="env.VTE_VERSION" value="4205" />
+    <property name="env.DEFAULTS_PATH" value="/usr/share/gconf/xfce.default.path" />
+    <property name="catalina.home" value="/opt/tomcat/apache-tomcat-8.5.20/bin/.." />
+    <property name="ant.version" value="Apache Ant(TM) version 1.9.13 compiled on July 10 2018" />
+    <property name="env.XDG_SESSION_TYPE" value="x11" />
+    <property name="env.WINDOWID" value="60817414" />
+    <property name="env.XDG_SESSION_PATH" value="/org/freedesktop/DisplayManager/Session0" />
+    <property name="env.JOB" value="dbus" />
+    <property name="os.name" value="Linux" />
+    <property name="java.specification.vendor" value="Oracle Corporation" />
+    <property name="ant.file.type.catalina-tasks" value="file" />
+    <property name="ant.file.type.neo4j-build" value="file" />
+    <property name="env.TERM" value="xterm-256color" />
+    <property name="java.vm.name" value="Java HotSpot(TM) Server VM" />
+    <property name="env.QT_IM_MODULE" value="" />
+    <property name="lab3.location" value="/media/sf_Downloads/Assignment3b" />
+    <property name="java.library.path" value="/usr/java/packages/lib/i386:/lib:/usr/lib" />
+    <property name="env.PATH" value="/home/dp2/bin:/home/dp2/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/opt/tomcat/apache-tomcat-8.5.20/bin:/usr/lib/jvm/jdk1.8.0_141/bin:/opt/apache-ant-1.9.13/bin:/snap/bin" />
+    <property name="env.LESSCLOSE" value="/usr/bin/lesspipe %s %s" />
+    <property name="ant.java.version" value="1.8" />
+    <property name="basedir" value="/media/sf_Downloads/Assignment3b" />
+    <property name="java.class.version" value="52.0" />
+    <property name="env.SHLVL" value="1" />
+    <property name="ext.lib.dir" value="/opt/dp2/shared/lib" />
+    <property name="sol.zip" value="lab3.zip" />
+    <property name="ant.home" value="/opt/apache-ant-1.9.13" />
+    <property name="env.UPSTART_JOB" value="startxfce4" />
+    <property name="sun.boot.library.path" value="/usr/lib/jvm/jdk1.8.0_141/jre/lib/i386" />
+    <property name="build.dir" value="/media/sf_Downloads/Assignment3b/build" />
+    <property name="sun.management.compiler" value="HotSpot Tiered Compilers" />
+    <property name="java.awt.graphicsenv" value="sun.awt.X11GraphicsEnvironment" />
+    <property name="env.USER" value="dp2" />
+    <property name="env.GTK_IM_MODULE" value="" />
+    <property name="env.GTK_MODULES" value="gail:atk-bridge" />
+    <property name="ant.file.catalina-tasks" value="/opt/tomcat/apache-tomcat-8.5.20/bin/catalina-tasks.xml" />
+    <property name="ant.project.name" value="RNS-3" />
+    <property name="env.SESSIONTYPE" value="" />
+    <property name="java.vm.specification.version" value="1.8" />
+    <property name="env.NLSPATH" value="/usr/dt/lib/nls/msg/%L/%N.cat" />
+    <property name="Neo4JSimpleXMLURL" value="http://localhost:8080/Neo4JSimpleXML/webapi" />
+    <property name="awt.toolkit" value="sun.awt.X11.XToolkit" />
+    <property name="doc.dir" value="/media/sf_Downloads/Assignment3b/doc" />
+    <property name="sun.cpu.isalist" value="" />
+    <property name="java.ext.dirs" value="/usr/lib/jvm/jdk1.8.0_141/jre/lib/ext:/usr/java/packages/lib/ext" />
+    <property name="os.version" value="4.15.0-34-generic" />
+    <property name="env.QT_QPA_PLATFORMTHEME" value="appmenu-qt5" />
+    <property name="user.home" value="/home/dp2" />
+    <property name="env.XDG_CURRENT_DESKTOP" value="XFCE" />
+    <property name="test.class" value="it.polito.dp2.RNS.lab3.tests.RnsTests" />
+    <property name="java.vm.vendor" value="Oracle Corporation" />
+    <property name="env.JAVA_HOME" value="/usr/lib/jvm/jdk1.8.0_141" />
+    <property name="env.SESSION" value="xfce" />
+    <property name="env.XDG_SESSION_ID" value="c2" />
+    <property name="env.XAUTHORITY" value="/home/dp2/.Xauthority" />
+    <property name="user.dir" value="/media/sf_Downloads/Assignment3b" />
+    <property name="env.XFILESEARCHPATH" value="/usr/dt/app-defaults/%L/Dt" />
+    <property name="env.PWD" value="/media/sf_Downloads/Assignment3b" />
+    <property name="sun.cpu.endian" value="little" />
+    <property name="sol3.dir" value="src/it/polito/dp2/RNS/sol3" />
+    <property name="it.polito.dp2.RNS.RnsClientFactory" value="it.polito.dp2.RNS.sol3.client1.RnsClientFactory" />
+    <property name="it.polito.dp2.RNS.lab3.URL" value="http://localhost:8080/RnsSystem/rest" />
+    <property name="tomcatPort" value="8080" />
+    <property name="java.vm.version" value="25.141-b15" />
+    <property name="java.class.path" value="/media/sf_Downloads/Assignment3b/build:/media/sf_Downloads/Assignment3b/lib/RNS.jar:/media/sf_Downloads/Assignment3b/lib/RNSRandom.jar:/media/sf_Downloads/Assignment3b/lib/hamcrest-core-1.3.jar:/media/sf_Downloads/Assignment3b/lib/junit-4.12.jar:/media/sf_Downloads/Assignment3b/lib/lab1.jar:/media/sf_Downloads/Assignment3b/lib/lab3.jar:/media/sf_Downloads/Assignment3b/lib/swagger-annotations-1.5.0.jar:/media/sf_Downloads/Assignment3b/lib/swagger-core-1.5.0.jar:/media/sf_Downloads/Assignment3b/lib/swagger-jaxrs-1.5.0.jar:/media/sf_Downloads/Assignment3b/lib/swagger-jersey2-jaxrs-1.5.0.jar:/media/sf_Downloads/Assignment3b/lib/swagger-models-1.5.0.jar:/opt/dp2/shared/lib/activation-1.1.jar:/opt/dp2/shared/lib/annotations-2.0.1.jar:/opt/dp2/shared/lib/aopalliance-repackaged-2.5.0-b32.jar:/opt/dp2/shared/lib/codemodel-2.6.jar:/opt/dp2/shared/lib/commons-lang-2.6.jar:/opt/dp2/shared/lib/commons-lang3-3.2.1.jar:/opt/dp2/shared/lib/comresrcgen-1.0.jar:/opt/dp2/shared/lib/gson-2.2.4.jar:/opt/dp2/shared/lib/guava-15.0.jar:/opt/dp2/shared/lib/hk2-api-2.5.0-b32.jar:/opt/dp2/shared/lib/hk2-locator-2.5.0-b32.jar:/opt/dp2/shared/lib/hk2-utils-2.5.0-b32.jar:/opt/dp2/shared/lib/istack-commons-runtime-2.21.jar:/opt/dp2/shared/lib/istack-commons-tools-2.21.jar:/opt/dp2/shared/lib/jackson-annotations-2.4.0.jar:/opt/dp2/shared/lib/jackson-core-2.4.2.jar:/opt/dp2/shared/lib/jackson-core-asl-1.9.11.jar:/opt/dp2/shared/lib/jackson-databind-2.4.2.jar:/opt/dp2/shared/lib/jackson-dataformat-xml-2.4.2.jar:/opt/dp2/shared/lib/jackson-dataformat-yaml-2.4.2.jar:/opt/dp2/shared/lib/jackson-datatype-joda-2.4.2.jar:/opt/dp2/shared/lib/jackson-jaxrs-base-2.4.2.jar:/opt/dp2/shared/lib/jackson-jaxrs-json-provider-2.4.2.jar:/opt/dp2/shared/lib/jackson-mapper-asl-1.9.11.jar:/opt/dp2/shared/lib/jackson-module-jaxb-annotations-2.4.2.jar:/opt/dp2/shared/lib/javassist-3.20.0-GA.jar:/opt/dp2/shared/lib/javax.annotation-api-1.2.jar:/opt/dp2/shared/lib/javax.inject-2.5.0-b32.jar:/opt/dp2/shared/lib/javax.json-1.0.4.jar:/opt/dp2/shared/lib/javax.ws.rs-api-2.0.1.jar:/opt/dp2/shared/lib/jaxb-api-2.2.12-b140109.1041.jar:/opt/dp2/shared/lib/jaxb-core-2.2.11.jar:/opt/dp2/shared/lib/jaxb-runtime-2.2.11.jar:/opt/dp2/shared/lib/jaxb-xjc-2.2.11.jar:/opt/dp2/shared/lib/jersey-client-1.19.1.jar:/opt/dp2/shared/lib/jersey-client-2.25.1.jar:/opt/dp2/shared/lib/jersey-common-2.25.1.jar:/opt/dp2/shared/lib/jersey-container-servlet-2.25.1.jar:/opt/dp2/shared/lib/jersey-container-servlet-core-2.25.1.jar:/opt/dp2/shared/lib/jersey-core-1.19.1.jar:/opt/dp2/shared/lib/jersey-entity-filtering-2.25.1.jar:/opt/dp2/shared/lib/jersey-guava-2.25.1.jar:/opt/dp2/shared/lib/jersey-media-jaxb-2.25.1.jar:/opt/dp2/shared/lib/jersey-media-moxy-2.25.1.jar:/opt/dp2/shared/lib/jersey-media-multipart-2.25.1.jar:/opt/dp2/shared/lib/jersey-server-2.25.1.jar:/opt/dp2/shared/lib/joda-time-2.2.jar:/opt/dp2/shared/lib/json-simple-1.1.jar:/opt/dp2/shared/lib/jsonschema2pojo-core-0.4.0.jar:/opt/dp2/shared/lib/localizer-1.0.jar:/opt/dp2/shared/lib/mimepull-1.9.6.jar:/opt/dp2/shared/lib/org.eclipse.persistence.asm-2.6.0.jar:/opt/dp2/shared/lib/org.eclipse.persistence.core-2.6.0.jar:/opt/dp2/shared/lib/org.eclipse.persistence.moxy-2.6.0.jar:/opt/dp2/shared/lib/osgi-resource-locator-1.0.1.jar:/opt/dp2/shared/lib/reflections-0.9.9.jar:/opt/dp2/shared/lib/rngom-2.2.11.jar:/opt/dp2/shared/lib/slf4j-api-1.6.3.jar:/opt/dp2/shared/lib/stax2-api-3.1.4.jar:/opt/dp2/shared/lib/txw2-2.2.11.jar:/opt/dp2/shared/lib/validation-api-1.1.0.Final.jar:/opt/dp2/shared/lib/wadl-ant-1.1.6.jar:/opt/dp2/shared/lib/wadl-core-1.1.6.jar:/opt/dp2/shared/lib/wadl-xslt-1.1.6.jar:/opt/dp2/shared/lib/xsom-20140925.jar:/opt/apache-ant-1.9.13/lib/ant-launcher.jar:/opt/apache-ant-1.9.13/lib/ant.jar:/opt/apache-ant-1.9.13/lib/ant-junit.jar:/opt/apache-ant-1.9.13/lib/ant-junit4.jar" />
+    <property name="DSTAMP" value="20190116" />
+    <property name="env.LC_ADDRESS" value="it_IT.UTF-8" />
+    <property name="ant.library.dir" value="/opt/apache-ant-1.9.13/lib" />
+    <property name="os.arch" value="i386" />
+    <property name="env.LC_NUMERIC" value="it_IT.UTF-8" />
+    <property name="tomcatPassword" value="root" />
+    <property name="sun.java.launcher" value="SUN_STANDARD" />
+    <property name="ant.core.lib" value="/opt/apache-ant-1.9.13/lib/ant.jar" />
+    <property name="java.vm.specification.vendor" value="Oracle Corporation" />
+    <property name="env.UPSTART_INSTANCE" value="" />
+    <property name="URL" value="http://localhost:8080/RnsSystem/rest" />
+    <property name="TSTAMP" value="1727" />
+    <property name="exit.code2" value="125" />
+    <property name="file.separator" value="/" />
+    <property name="exit.code1" value="126" />
+    <property name="java.runtime.version" value="1.8.0_141-b15" />
+    <property name="sun.boot.class.path" value="/usr/lib/jvm/jdk1.8.0_141/jre/lib/resources.jar:/usr/lib/jvm/jdk1.8.0_141/jre/lib/rt.jar:/usr/lib/jvm/jdk1.8.0_141/jre/lib/sunrsasign.jar:/usr/lib/jvm/jdk1.8.0_141/jre/lib/jsse.jar:/usr/lib/jvm/jdk1.8.0_141/jre/lib/jce.jar:/usr/lib/jvm/jdk1.8.0_141/jre/lib/charsets.jar:/usr/lib/jvm/jdk1.8.0_141/jre/lib/jfr.jar:/usr/lib/jvm/jdk1.8.0_141/jre/classes" />
+    <property name="env.SSH_AUTH_SOCK" value="/tmp/ssh-ZFjbK3LgzAP5/agent.1846" />
+    <property name="env.QT4_IM_MODULE" value="" />
+    <property name="env.XDG_RUNTIME_DIR" value="/run/user/1000" />
+    <property name="env.XDG_CONFIG_DIRS" value="/etc/xdg/xdg-xfce:/usr/share/upstart/xdg:/etc/xdg:/etc/xdg" />
+    <property name="user.country" value="US" />
+    <property name="env.ANT_HOME" value="/opt/apache-ant-1.9.13" />
+    <property name="env.SHELL" value="/bin/bash" />
+    <property name="env.INSTANCE" value="" />
+    <property name="xsd.dir" value="/media/sf_Downloads/Assignment3b/xsd" />
+    <property name="service.name" value="RnsSystem" />
+    <property name="java.vendor" value="Oracle Corporation" />
+    <property name="env.CATALINA_HOME" value="/opt/tomcat/apache-tomcat-8.5.20" />
+    <property name="java.specification.version" value="1.8" />
+    <property name="ant.file.RNS-3" value="/media/sf_Downloads/Assignment3b/build.xml" />
+    <property name="ant.file.type.tomcat-build" value="file" />
+    <property name="sun.arch.data.model" value="32" />
+  </properties>
+  <testcase classname="it.polito.dp2.RNS.lab3.tests.RnsTests" name="testWrongPlace" time="0.259" />
+  <testcase classname="it.polito.dp2.RNS.lab3.tests.RnsTests" name="testUnknownPlace" time="0.195" />
+  <testcase classname="it.polito.dp2.RNS.lab3.tests.RnsTests" name="testVehicleLifecycle2" time="0.446" />
+  <testcase classname="it.polito.dp2.RNS.lab3.tests.RnsTests" name="testVehicleLifecycle" time="0.222" />
+  <testcase classname="it.polito.dp2.RNS.lab3.tests.RnsTests" name="testGetParkingAreas" time="0.007" />
+  <testcase classname="it.polito.dp2.RNS.lab3.tests.RnsTests" name="testGetPlaces" time="0.002" />
+  <system-out><![CDATA[Random RnsReader: Using seed: 1172712
+Random RnsReader: Test case: 1
+
+
+
+
+
+
+Bad Request
+Unknown source or destination
+Vehicle Created
+Vehicle moved to the new position: A0-S0, not new path
+Vehicle Created
+Vehicle moved to the new position: Gate1, not new path
+Vehicle moved to the new position: A0-S0, not new path
+Vehicle exited the system
+Vehicle moved to the new position: Gate1, not new path
+Vehicle exited the system
+Vehicle Created
+Vehicle moved to the new position: A0-S0, not new path
+Vehicle moved to the new position: Gate1, not new path
+Vehicle exited the system
+Comparing place PA000
+Comparing place PA001
+Comparing place PA002
+Comparing place A0-S0
+Comparing place A0-S0
+Comparing place A1-S0
+Comparing place A1-S0
+Comparing place A1-S1
+Comparing place A1-S1
+Comparing place A1-S2
+Comparing place A1-S2
+Comparing place Gate0
+Comparing place Gate0
+Comparing place Gate1
+Comparing place Gate1
+Comparing place Gate2
+Comparing place Gate2
+Comparing place PA000
+Comparing place PA000
+Comparing place PA001
+Comparing place PA001
+Comparing place PA002
+Comparing place PA002
+Comparing place SS0-S0
+Comparing place SS0-S0
+Comparing place SS0-S1
+Comparing place SS0-S1
+Comparing place SS0-S2
+Comparing place SS0-S2
+Comparing place SS0-S3
+Comparing place SS0-S3
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

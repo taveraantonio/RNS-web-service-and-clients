@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project basedir="." default="build-service" name="RNS-SOL3">
+    <description>
+        Script for RNS Assignment 3 
+    </description>
+    
+    <property name="basedir" location="." />
+    <property name="serviceName" value="RnsSystem" />
+    <property name="root.location" location="${basedir}" />
+    <property name="schema.dir" location="${root.location}/xsd"/>
+    <property name="gen.dir" location="${root.location}/generated" />
+    <property name="service.dir" location="${root.location}/src/it/polito/dp2/RNS/sol3/service" />
+    <property name="resources.dir" location="${root.location}/WebContent" />
+    <property name="web.lib.dir" location="${resources.dir}/WEB-INF/lib" />
+    <property name="build.dir" location="${root.location}/build" />
+    <property name="lib.dir" location="${root.location}/lib" />
+    <property name="ext.lib.dir" location="${root.location}/lib-src" />
+    <property name="client1.dir" location="${root.location}/src/it/polito/dp2/RNS/sol3/admClient" />
+    <property name="client2.dir" location="${root.location}/src/it/polito/dp2/RNS/sol3/vehClient" />
+    <property name="debug" value="true" />
+	<property name="debuglevel" value="source,lines,vars" />
+	<property name="target" value="1.8" />
+	<property name="source" value="1.8" />
+    
+    <!-- The classpath that includes only the RNS.jar -->
+	
+	<path id="RNS.classpath">
+		<pathelement location="${build.dir}" />
+		<fileset dir="${ext.lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+   
+	<target name="clean">
+		<delete dir="${gen.dir}" />
+	</target>
+	
+    <!-- Create the gen-src directory -->  
+    <target name="init" depends="clean">
+        <!-- make directories -->
+        <mkdir dir="${gen.dir}"/>
+    </target>  
+    
+    <target name="generate-artifacts-sol3" depends="init" description="generate Java classes from schema">
+        <exec executable="xjc" failonerror="true" >
+            <arg value="-d" />
+            <arg value="${gen.dir}" />
+            <arg value="-p" />
+            <arg value="it.polito.dp2.RNS.sol3.jaxb" />
+            <arg value="${schema.dir}/${serviceName}.xsd" />
+        </exec>
+    </target>
+    
+    <target name="generate-artifacts-sol2" depends="init" description="generate Java classes from schema">
+        <exec executable="xjc" failonerror="true" >
+            <arg value="-d" />
+            <arg value="${gen.dir}" />
+            <arg value="-p" />
+            <arg value="it.polito.dp2.RNS.sol2.jaxb" />
+            <arg value="${schema.dir}/RnsSchema.xsd" />
+        </exec>
+    </target>
+    
+    <target name="generate-artifacts-sol1" depends="init" description="generate Java classes from schema">
+        <exec executable="xjc" failonerror="true" >
+            <arg value="-d" />
+            <arg value="${gen.dir}" />
+            <arg value="-p" />
+            <arg value="it.polito.dp2.RNS.sol1.jaxb" />
+            <arg value="${schema.dir}/rnsInfo.xsd" />
+        </exec>
+    </target>
+    
+    <target name="build-service" depends="generate-artifacts-sol3, generate-artifacts-sol2, generate-artifacts-sol1">
+        <echo>Building the service</echo>
+        <javac 
+                debug="${debug}"
+                destdir="${build.dir}" 
+        		debuglevel="${debuglevel}"
+        		source="${source}"
+        		target="${target}"
+     			includeantruntime="false">
+        	<src path="${service.dir}" />
+            <src path="${gen.dir}" />
+            <classpath>
+                <path refid="RNS.classpath" />
+            </classpath>
+        </javac>
+        <echo>Done</echo>
+    </target>
+    
+    <target name="build-client" depends="generate-artifacts-sol2, generate-artifacts-sol1, generate-artifacts-sol3">
+        <echo>Building administrator client </echo>
+        <javac 
+            debug="${debug}"
+            destdir="${build.dir}" 
+            debuglevel="${debuglevel}"
+            source="${source}"
+            target="${target}"
+            includeantruntime="false">
+            <src path="${client1.dir}" />
+            <src path="${gen.dir}" />
+            <classpath>
+                <path refid="RNS.classpath" />
+            </classpath>
+        </javac>
+        <echo>Done</echo>
+        
+        <echo>Building vehicle client </echo>
+        <javac 
+            debug="${debug}"
+            destdir="${build.dir}" 
+            debuglevel="${debuglevel}"
+            source="${source}"
+            target="${target}"
+            includeantruntime="false">
+            <src path="${client2.dir}" />
+            <src path="${gen.dir}" />
+            <classpath>
+                <path refid="RNS.classpath" />
+            </classpath>
+        </javac>
+        <echo>Done</echo>
+    </target>
+    
+
+</project>

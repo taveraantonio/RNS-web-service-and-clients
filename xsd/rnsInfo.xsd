@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element name="Rns">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="entity" minOccurs="0" maxOccurs="unbounded">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:choice minOccurs="1" maxOccurs="1">
+                                <xsd:element name="places" type="PlaceObject" minOccurs="1" maxOccurs="1"/>
+                                <xsd:element name="vehicles" type="VehicleObject" minOccurs="1" maxOccurs="1" />
+                            </xsd:choice>
+                        </xsd:sequence>
+                        <xsd:attribute name="entityID" type="xsd:string" use="required" />
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+        
+        <!-- Defining entities key -->
+        <xsd:key name="entityKey">
+            <xsd:selector xpath="entity" />
+            <xsd:field xpath="@entityID" /> 
+        </xsd:key>
+        
+        <!-- Defining uniqueness of the entity key -->
+        <xsd:unique name="entityIDUnique">
+            <xsd:selector xpath="entity" />
+            <xsd:field xpath="@entityID" />
+        </xsd:unique>
+        
+        <!-- Defining places key -->
+        <xsd:key name="placeKey">
+            <xsd:selector xpath="entity/places/place" />
+            <xsd:field xpath="@placeID" /> 
+        </xsd:key>
+        
+        <!--Defining reference for placeIDs -->
+        <xsd:keyref name="placeKeyRef" refer="entityKey">
+            <xsd:selector xpath="entity/places/place" />
+            <xsd:field xpath="@placeID" /> 
+        </xsd:keyref> 
+        
+        <!-- Defining vehicles key -->
+        <xsd:key name="vehicleKey">
+            <xsd:selector xpath="entity/vehicles/vehicle" />
+            <xsd:field xpath="@vehicleID" /> 
+        </xsd:key> 
+        
+        <!--Defining reference for vehicleIDs -->
+        <xsd:keyref name="vehicleKeyRef" refer="entityKey">
+            <xsd:selector xpath="entity/vehicles/vehicle" />
+            <xsd:field xpath="@vehicleID" />
+        </xsd:keyref>
+
+        <!-- Defining comesFrom reference for vehicle object -->
+        <xsd:keyref name="comesFromRef" refer="placeKey">
+            <xsd:selector xpath="entity/vehicles/vehicle/localization/comesFrom" />
+            <xsd:field xpath="." />
+        </xsd:keyref>
+        
+        <!-- Defining directedTo reference for vehicle object -->
+        <xsd:keyref name="directedToRef" refer="placeKey">
+            <xsd:selector xpath="entity/vehicles/vehicle/localization/directedTo" />
+            <xsd:field xpath="." />
+        </xsd:keyref>
+        
+        <!-- Defining position reference for vehicle object-->
+        <xsd:keyref name="positionRef" refer="placeKey">
+            <xsd:selector xpath="entity/vehicles/vehicle/localization/position" />
+            <xsd:field xpath="." />
+        </xsd:keyref>
+        
+        <!-- Defining reference for connectedTo for place object -->
+        <xsd:keyref name="connectedToRef" refer="placeKey">
+            <xsd:selector xpath="entity/places/place/connectedTo" />
+            <xsd:field xpath="." />
+        </xsd:keyref>
+        
+        <!-- Defining uniqueness for roadName and roadSegmentName
+        a road cannot have two segment with the same name -->
+        <xsd:unique name="roadUniqueneness">
+            <xsd:selector xpath="entity/places/place/roadSegment" />
+            <xsd:field xpath="@roadSegmentName" />
+            <xsd:field xpath="road/@roadName" /> 
+        </xsd:unique> 
+        
+    </xsd:element>
+    
+    
+    <!-- PLACE OBJECT -->
+    <xsd:complexType name="PlaceObject">
+        <xsd:sequence>
+            <xsd:element name= "place">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="connectedTo" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+                        <xsd:choice minOccurs="1" maxOccurs="1">
+                            <xsd:element name="roadSegment" type="roadSegment" minOccurs="1" maxOccurs="1" />
+                            <xsd:element name="parkingArea" type="parkingArea" minOccurs="1" maxOccurs="1" />
+                            <xsd:element name="gate" type="gateType" minOccurs="1" maxOccurs="1" />
+                        </xsd:choice>
+                    </xsd:sequence>
+                    <xsd:attribute name="placeID" type="xsd:string" use="required" />
+                    <xsd:attribute name="capacity" type="nonNegativeInteger" use="required" /> 
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <!-- Defining roadSegment, it must have a name, and is a part of a Road -->
+    <xsd:complexType name="roadSegment">
+        <xsd:sequence>
+            <xsd:element name="road" minOccurs="1" maxOccurs="1" >
+                <xsd:complexType>
+                    <xsd:attribute name="roadName" type="alphaNumericString" use="required" />
+                </xsd:complexType>
+            </xsd:element> 
+        </xsd:sequence>
+        <xsd:attribute name="roadSegmentName" type="alphaNumericString" use="required" />
+    </xsd:complexType>
+    
+    <!-- Defining parking area type, it can have from 0 to unbounded number of services
+        each one identified by a unique name -->
+    <xsd:complexType name="parkingArea">
+        <xsd:sequence>
+            <xsd:element name="services" minOccurs="0" maxOccurs="1">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="service" minOccurs="0" maxOccurs="unbounded" >
+                            <xsd:complexType>
+                                <xsd:attribute name="serviceName" type="xsd:string" use="required" />
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+                <!-- Defining uniqueness for the services name -->
+                <xsd:unique name="servicesUniqueneness">
+                    <xsd:selector xpath="service" />
+                    <xsd:field xpath="@serviceName" />
+                </xsd:unique>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <!-- Defining the gate type, is a restriction of the base type string 
+        is an enumeration of three different values -->
+    <xsd:simpleType name="gateType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="IN" />
+            <xsd:enumeration value="OUT" />
+            <xsd:enumeration value="INOUT" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!-- Defining a non negative integer for the capacity constraint 
+        is a restriction of the base type integer, set to be greater than 0 -->
+    <xsd:simpleType name="nonNegativeInteger">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minExclusive value="0" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!-- Defining the string pattern for road and roadSegment name, it is a string made 
+        only of alphabetical characters and digits -->
+    <xsd:simpleType name="alphaNumericString">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="([A-Za-z]|[0-9])+" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+
+    <!-- VEHICLE OBJECT -->
+    <xsd:complexType name="VehicleObject">
+        <xsd:sequence>
+            <xsd:element name ="vehicle">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="localization" type="localization" minOccurs="1" maxOccurs="1" />
+                    </xsd:sequence>
+                    <xsd:attribute name="vehicleID" type="plateID" use="required" />
+                    <xsd:attribute name="vehicleType" type="VehicleType" use="required" />
+                    <xsd:attribute name="vehicleState" type="VehicleState" use="required" />
+                    <xsd:attribute name="entryTime" type="xsd:dateTime" use="required" />	
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <!-- Defining localization type, it must have three element: the comesFrom 
+         the directedTo and the current position. All of them refering to a place -->
+    <xsd:complexType name="localization">
+        <xsd:sequence>
+            <xsd:element name="comesFrom" type="xsd:string" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="directedTo" type="xsd:string" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="position" type="xsd:string" minOccurs="1" maxOccurs="1" /> 
+        </xsd:sequence>    
+    </xsd:complexType>
+    
+    <!-- Defining the vehicle type, is a restriction of the base type string 
+        is an enumeration of four different values -->
+    <xsd:simpleType name="VehicleType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="CAR" />
+            <xsd:enumeration value="TRUCK" />
+            <xsd:enumeration value="SHUTTLE" />
+            <xsd:enumeration value="CARAVAN" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!-- Defining the vehicle state type, is a restriction of the base type string 
+        is an enumeration of two different values -->
+    <xsd:simpleType name="VehicleState">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="PARKED" />
+            <xsd:enumeration value="IN_TRANSIT" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!-- Defining the plateID pattern for vehicle, it is a string made only of uppercase
+        alphabetical characters and digits -->
+    <xsd:simpleType name="plateID">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="([A-Z]+[0-9]|[0-9]+[A-Z])[A-Z0-9]*" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+
+</xsd:schema>
