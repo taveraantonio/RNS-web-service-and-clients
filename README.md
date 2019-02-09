@@ -1,6 +1,6 @@
 # RNS System Web Service and Vehicle and Administrator Client
 Java implementation of the RNS system, developing of a vehicle and an administrator client for that web service.
-That code is developed for the Distributed Programming II course held at the Politecnico di Torino.
+The code is developed for the Distributed Programming II course held at the Politecnico di Torino.
 Design explanation of the webservice can be found in the doc folder. 
 
 ## RNS System Web Service
