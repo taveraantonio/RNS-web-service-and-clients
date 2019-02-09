@@ -8,7 +8,7 @@ The code is a Java implementation (using the JAX-RS framework) of the web servic
 
 When deployed, RnsSystem is initialized by reading the data about places and relative connections from the RnsReader interface already used for the **Rns Serializer and library"** rebository (defined in package it.polito.dp2.RNS), while information about vehicles are not be considered (i.e., initially there will be no tracked vehicle in the system). The information about places and their connections is never updated (i.e., the service always uses the information read at startup).
 The service exploit the NEO4J REST API in order to store the graph of places and their connections, in the same way done for **Client RESTful web service of Neo4j"** repository, and in order to compute the suggested path for a vehicle.
-In order to compute the suggested path, the service finds the shortest paths between source and destination by means of NEO4. Then, if more than one path is found, it selects one. The criterion for selection is chosen arbitrarily by the service.
+In order to compute the suggested path, the service finds the shortest paths between source and destination by means of NEO4j. Then, if more than one path is found, it selects one. The criterion for selection is chosen arbitrarily by the service.
 
 
 ## RNS Administrator Client 
